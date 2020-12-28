@@ -7,6 +7,8 @@ namespace cocktails.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    //[Route("Cocktails")]
+
     public class CocktailController : ControllerBase
     {
         // private readonly Cocktail cocktail;        
@@ -18,25 +20,27 @@ namespace cocktails.Controllers
             new Cocktail { ID = 4, Name = "Old Fashion", Price = 16.50, Rating = 4.5 }
         };
 
+
         [HttpGet]
         public IEnumerable<Cocktail> GetCocktails()
         {
             return CocktailList;
         }
 
-        [HttpGet("{_ID}")]
+
+        // cocktail/id/$int
+        [HttpGet("id/{_ID:int}")]
         public IEnumerable<Cocktail> GetCocktailsByID(int _ID)
         {
             return CocktailList.Where(Cocktail => Cocktail.ID == _ID);
         }
-        [Route("Cocktail/Rating")]
-        [HttpGet("{_Rating}")]
+        
+        // cocktail/rating/$double
+        [HttpGet("rating/{_Rating:double}")]
         public IEnumerable<Cocktail> GetCocktailsByRating(double _Rating)
         {
             return CocktailList.Where(Cocktail => Cocktail.Rating >= _Rating);
         }
-
-
 
     }  // end of class controller
 
