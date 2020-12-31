@@ -13,7 +13,7 @@ namespace cocktails.Controllers
 
     public class CocktailController : ControllerBase
     {
-        // private readonly Cocktail cocktail;        
+        // private readonly Cocktail cocktail;
         List<Cocktail> CocktailList = new()
         {
             new Cocktail { ID = 1, Name = "Manhattan", Price = 14.25, Rating = 4.8 },
@@ -54,6 +54,36 @@ namespace cocktails.Controllers
 
         }
 
+        // cocktail/Post  -- insert new Item
+        [HttpPost]
+        public void AddCocktail(Item _item)
+        {
+
+            FileDB fileDB = new();
+            fileDB.InsertItemintoList(_item);
+
+
+        }
+        // cocktail/Put  -- update  Item by id
+        [HttpPut]
+        public void UpdateCocktail(Item _item)
+        {
+
+            FileDB fileDB = new();
+            fileDB.UpdateItemInListById(_item);
+
+
+        }
+
+        // cocktail/Post  -- Delete Item
+        [HttpDelete("id/{_ID:int}")]
+        //[HttpDelete]
+        public void DeleteCocktail( int _Id)
+        {
+
+            FileDB fileDB = new();
+            fileDB.DeleteItemfromListById(_Id);
+        }
     }  // end of class controller
 
 } // end of namespace
