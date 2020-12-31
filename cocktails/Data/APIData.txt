@@ -1,0 +1,1 @@
+[{"Id":1,"Name":"Jimtini","Price":15.25,"Rating":4.8},{"Id":2,"Name":"Manhattan","Price":15.5,"Rating":4.5},{"Id":3,"Name":"Domestic Beer","Price":8.5,"Rating":3},{"Id":4,"Name":"Wine","Price":10,"Rating":3.5}]

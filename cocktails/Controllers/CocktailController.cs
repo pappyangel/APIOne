@@ -2,12 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using cocktails.models;
 using Microsoft.AspNetCore.Mvc;
+using cocktails.DB;
+
 
 namespace cocktails.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    //[Route("Cocktails")]
+    //[Route("[controller]")]
+    [Route("Cocktails")]
 
     public class CocktailController : ControllerBase
     {
@@ -22,24 +24,34 @@ namespace cocktails.Controllers
 
 
         [HttpGet]
-        public IEnumerable<Cocktail> GetCocktails()
+        public IEnumerable<Item> GetAllCocktails()
         {
-            return CocktailList;
-        }
+            FileDB fileDB = new();
+            List<Item> _itemList = fileDB.ReadListFromFile();
 
+            return _itemList;
+
+        }
 
         // cocktail/id/$int
         [HttpGet("id/{_ID:int}")]
-        public IEnumerable<Cocktail> GetCocktailsByID(int _ID)
+        public IEnumerable<Item> GetCocktailsByID(int _Id)
         {
-            return CocktailList.Where(Cocktail => Cocktail.ID == _ID);
+            FileDB fileDB = new();
+            List<Item> _itemList = fileDB.ReadListFromFile();
+
+            return _itemList.Where(_itemList => _itemList.Id == _Id);
         }
-        
+
         // cocktail/rating/$double
         [HttpGet("rating/{_Rating:double}")]
-        public IEnumerable<Cocktail> GetCocktailsByRating(double _Rating)
+        public IEnumerable<Item> GetCocktailsByRating(double _Rating)
         {
-            return CocktailList.Where(Cocktail => Cocktail.Rating >= _Rating);
+            FileDB fileDB = new();
+            List<Item> _itemList = fileDB.ReadListFromFile();
+
+            return _itemList.Where(_itemList => _itemList.Rating >= _Rating);
+
         }
 
     }  // end of class controller
