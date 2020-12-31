@@ -21,7 +21,29 @@ namespace cocktails.DB
             return _itemList;
 
         }
+        public void InsertItemintoList(Item _item)
+        {
+            // read list from file
+            List<Item> _ItemListFromDisk = ReadListFromFile();
 
+            // get max id from list
+            Item _LastItem = new();
+            int _nextItemID = 1;
+
+            if (_ItemListFromDisk.Count > 0)
+            {
+                _LastItem = _ItemListFromDisk[_ItemListFromDisk.Count - 1];
+                _nextItemID = _LastItem.Id + 1;
+            }
+            _item.Id = _nextItemID;
+
+            // add record to list with values from put
+            _ItemListFromDisk.Add(_item);
+
+            // write list to file
+            WriteListtoFile(_ItemListFromDisk);
+
+        }
         public List<Item> ReadListFromFile()
         {
             // in method variable
@@ -39,12 +61,57 @@ namespace cocktails.DB
 
             // pass list back to caller
 
-            //_items.Sort(); 
+            //_items.Sort();
             return _items;
 
 
         }
 
+        public  void DeleteItemfromListById(int _Id)
+        {
+
+            // read list from file
+            List<Item> _ItemListFromDisk = ReadListFromFile();
+
+           //delete the item if it exists from post
+            if (_ItemListFromDisk.Exists(x => x.Id == _Id))
+            {
+                // remove item from list
+                _ItemListFromDisk.RemoveAll(p => p.Id == _Id);
+
+            }
+
+            //write list to file
+            WriteListtoFile(_ItemListFromDisk);
+
+        }
+        public  void UpdateItemInListById(Item _item)
+        {
+
+            // read list from file
+            List<Item> _ItemListFromDisk = ReadListFromFile();
+
+            if (_ItemListFromDisk.Exists(x => x.Id == _item.Id))
+            {
+                Item _ItemtoUpdate = _ItemListFromDisk.Find(p => p.Id ==_item.Id);
+
+                _ItemtoUpdate.Name = _item.Name;
+                _ItemtoUpdate.Price = _item.Price;
+                _ItemtoUpdate.Rating = _item.Rating;
+
+                // remove item from list
+                _ItemListFromDisk.RemoveAll(p => p.Id == _item.Id);
+
+                // add record to list with values from put
+                _ItemListFromDisk.Add(_ItemtoUpdate);
+
+            }
+
+            //write list to file
+            WriteListtoFile(_ItemListFromDisk);
+
+
+        }
         public void WriteListtoFile(List<Item> _items)
         {
 
