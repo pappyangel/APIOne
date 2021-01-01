@@ -13,6 +13,7 @@ namespace cocktails.DB
         public List<Item> InitialDBLoad()
         {
             List<Item> _itemList = new();
+            //Note: this initial list is already sorted by Id
             _itemList.Add(new Item() { Id = 1, Name = "Martini", Price = 15.25, Rating = 4.8 });
             _itemList.Add(new Item() { Id = 2, Name = "Manhattan", Price = 15.50, Rating = 4.5 });
             _itemList.Add(new Item() { Id = 3, Name = "Domestic Beer", Price = 8.50, Rating = 3.0 });
@@ -61,7 +62,7 @@ namespace cocktails.DB
 
             // pass list back to caller
 
-            //_items.Sort();
+            _items.Sort();
             return _items;
 
 

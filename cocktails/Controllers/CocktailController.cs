@@ -33,6 +33,18 @@ namespace cocktails.Controllers
 
         }
 
+        // cocktail/resetdb
+        [HttpGet("resetdb")]
+        public IEnumerable<Item> ResetCocktailsDB()
+        {
+            FileDB fileDB = new();
+
+            List<Item> _itemList = fileDB.InitialDBLoad();
+            fileDB.WriteListtoFile(_itemList);
+
+            return _itemList;
+        }
+
         // cocktail/id/$int
         [HttpGet("id/{_ID:int}")]
         public IEnumerable<Item> GetCocktailsByID(int _Id)
@@ -78,7 +90,7 @@ namespace cocktails.Controllers
         // cocktail/Post  -- Delete Item
         [HttpDelete("id/{_ID:int}")]
         //[HttpDelete]
-        public void DeleteCocktail( int _Id)
+        public void DeleteCocktail(int _Id)
         {
 
             FileDB fileDB = new();
