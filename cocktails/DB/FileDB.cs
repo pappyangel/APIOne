@@ -45,28 +45,7 @@ namespace cocktails.DB
             WriteListtoFile(_ItemListFromDisk);
 
         }
-        public List<Item> ReadListFromFile()
-        {
-            // in method variable
-            List<Item> _items = new();
-
-            // read file
-            string dirName = "./Data";
-            string fileName = dirName + "/APIData.txt";
-            string jsonString = File.ReadAllText(fileName);
-
-            // deserialize into class array
-            //var options = new JsonSerializerOptions { WriteIndented = true, };
-            //_items  = JsonSerializer.Deserialize<List<Item>>(jsonString, options);
-            _items = JsonSerializer.Deserialize<List<Item>>(jsonString);
-
-            // pass list back to caller
-
-            _items.Sort();
-            return _items;
-
-
-        }
+      
 
         public  void DeleteItemfromListById(int _Id)
         {
@@ -111,6 +90,28 @@ namespace cocktails.DB
             //write list to file
             WriteListtoFile(_ItemListFromDisk);
 
+        }
+
+          public List<Item> ReadListFromFile()
+        {
+            // in method variable
+            List<Item> _items = new();
+
+            // read file
+            string dirName = "./Data";
+            string fileName = dirName + "/APIData.txt";
+            string jsonString = File.ReadAllText(fileName);
+
+            // deserialize into class array
+            //var options = new JsonSerializerOptions { WriteIndented = true, };
+            //_items  = JsonSerializer.Deserialize<List<Item>>(jsonString, options);
+            _items = JsonSerializer.Deserialize<List<Item>>(jsonString);
+
+            // pass list back to caller
+
+            _items.Sort();
+            return _items;
+
 
         }
         public void WriteListtoFile(List<Item> _items)
@@ -141,6 +142,7 @@ namespace cocktails.DB
             APIDataFileStream.Write(info, 0, info.Length);
 
             using FileStream APIDataFileStreamPretty = File.Open(prettyFileName, FileMode.Append);
+            
             info = new UTF8Encoding(true).GetBytes(jsonStringPretty);
             APIDataFileStreamPretty.Write(info, 0, info.Length);
 
