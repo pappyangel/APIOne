@@ -45,7 +45,7 @@ namespace cocktails.DB
             WriteListtoFile(_ItemListFromDisk);
 
         }
-      
+
 
         public  void DeleteItemfromListById(int _Id)
         {
@@ -141,8 +141,9 @@ namespace cocktails.DB
             byte[] info = new UTF8Encoding(true).GetBytes(jsonString);
             APIDataFileStream.Write(info, 0, info.Length);
 
-            using FileStream APIDataFileStreamPretty = File.Open(prettyFileName, FileMode.Append);
-            
+            using FileStream APIDataFileStreamPretty = File.Open(prettyFileName, FileMode.OpenOrCreate);
+            APIDataFileStreamPretty.SetLength(0);
+
             info = new UTF8Encoding(true).GetBytes(jsonStringPretty);
             APIDataFileStreamPretty.Write(info, 0, info.Length);
 
