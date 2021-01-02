@@ -33,7 +33,7 @@ namespace cocktails.Controllers
             FileDB fileDB = new();
             List<Item> _itemList = fileDB.ReadListFromFile();
 
-            _logger.LogInformation("You asked for a list of all items");
+            _logger.LogInformation("You asked for a list of all items");            
 
             return _itemList;
 
@@ -72,7 +72,7 @@ namespace cocktails.Controllers
             FileDB fileDB = new();
             List<Item> _itemList = fileDB.ReadListFromFile();
 
-            _logger.LogInformation("Received request to return item by this rating: {@double}", _Rating);
+            _logger.LogInformation("Received request to return item by this rating: {@double}", _Rating);            
 
             return _itemList.Where(_itemList => _itemList.Rating >= _Rating);
 
