@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
 
 namespace cocktails
 {
@@ -18,6 +21,28 @@ namespace cocktails
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((context, config) =>
+                {
+                    var settings = config.Build();
+
+                    // Way-1
+                    // Connect to Azure Key Vault using the Managed Identity.
+                    var keyVaultEndpoint = settings["AzureKeyVaultEndpoint"];
+
+                    if (!string.IsNullOrEmpty(keyVaultEndpoint))
+                    {
+                        var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                        var keyVaultClient = new KeyVaultClient(
+                            new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
+
+                        string keyvaultURI = $"https://{keyVaultEndpoint}.vault.azure.net/";
+
+                        config.AddAzureKeyVault(keyvaultURI, keyVaultClient, new DefaultKeyVaultSecretManager());
+                        
+                        
+                    }
+
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
