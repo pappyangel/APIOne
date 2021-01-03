@@ -30,28 +30,19 @@ namespace cocktails.Controllers
             _configuration = configuration;
         }
 
-
-        // public CocktailController(IConfiguration configuration)
-        // {
-        //         Configuration = configuration;
-        // }
-
         [HttpGet]
         public IEnumerable<Item> GetAllCocktails()
         {
-
-            // var builder = new SqlConnectionStringBuilder(
-            //    Configuration["ConnectionStrings:defaultConnection"]);
-
-            var builder = _configuration["ConnectionStrings:defaultConnection"];
-            var KVData = _configuration.GetValue<string>("DrawDBPW");
-              
 
 
             FileDB fileDB = new();
             List<Item> _itemList = fileDB.ReadListFromFile();
 
             _logger.LogInformation("You asked for a list of all items");
+
+            SqlDb _sqlDb = new(_configuration);
+            _sqlDb.GetAllItems();
+
 
             return _itemList;
 

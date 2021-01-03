@@ -27,7 +27,8 @@ namespace cocktails
 
                     // Way-1
                     // Connect to Azure Key Vault using the Managed Identity.
-                    var keyVaultEndpoint = settings["AzureKeyVaultEndpoint"];
+                    //From Setting Json-- JV or TR
+                    var keyVaultEndpoint = settings["AzureKeyVaultEndpointTR"];
 
                     if (!string.IsNullOrEmpty(keyVaultEndpoint))
                     {
@@ -38,8 +39,8 @@ namespace cocktails
                         string keyvaultURI = $"https://{keyVaultEndpoint}.vault.azure.net/";
 
                         config.AddAzureKeyVault(keyvaultURI, keyVaultClient, new DefaultKeyVaultSecretManager());
-                        
-                        
+
+
                     }
 
                 })
