@@ -31,7 +31,7 @@ namespace cocktails.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Item> GetAllCocktails()
+        public List<Item> GetAllCocktails()
         {
 
 
@@ -41,7 +41,7 @@ namespace cocktails.Controllers
             _logger.LogInformation("You asked for a list of all items");
 
             SqlDb _sqlDb = new(_configuration);
-            _sqlDb.GetAllItems();
+           _itemList = _sqlDb.GetAllItems();
 
 
             return _itemList;

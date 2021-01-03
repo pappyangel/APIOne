@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Text.Json;
 using cocktails.models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -33,10 +34,12 @@ namespace cocktails.DB
 
         }
 
-    public void GetAllItems()
+    public List<Item> GetAllItems()
     {
         // local var items
         string tblName = "items";
+        List<Item> _items = new();
+
 
         SqlConnection _pluralCn =  GetSqlCn();
         _pluralCn.Open();
@@ -47,9 +50,12 @@ namespace cocktails.DB
         //List<Item> sqlItems = sqlCommand.ExecuteReader
         object jsonObject =  sqlCommand.ExecuteScalar();
 
-        // sel sql order by id
-        // action results
-        // return list of items
+        _items = JsonSerializer.Deserialize<List<Item>>(jsonObject.ToString());
+        return _items;
+
+
+        // to do  action results
+
 
 
 
