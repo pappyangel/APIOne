@@ -4,6 +4,7 @@ using cocktails.models;
 using Microsoft.AspNetCore.Mvc;
 using cocktails.DB;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace cocktails.Controllers
 {
@@ -22,18 +23,35 @@ namespace cocktails.Controllers
         //     new Cocktail { ID = 4, Name = "Old Fashion", Price = 16.50, Rating = 4.5 }
         // };
         private readonly ILogger<CocktailController> _logger;
-        public CocktailController(ILogger<CocktailController> logger)
+        private readonly IConfiguration _configuration;
+        public CocktailController(ILogger<CocktailController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
+
+
+        // public CocktailController(IConfiguration configuration)
+        // {
+        //         Configuration = configuration;
+        // }
 
         [HttpGet]
         public IEnumerable<Item> GetAllCocktails()
         {
+
+            // var builder = new SqlConnectionStringBuilder(
+            //    Configuration["ConnectionStrings:defaultConnection"]);
+
+            var builder = _configuration["ConnectionStrings:defaultConnection"];
+            var KVData = _configuration.GetValue<string>("DrawDBPW");
+              
+
+
             FileDB fileDB = new();
             List<Item> _itemList = fileDB.ReadListFromFile();
 
-            _logger.LogInformation("You asked for a list of all items");            
+            _logger.LogInformation("You asked for a list of all items");
 
             return _itemList;
 
@@ -72,7 +90,7 @@ namespace cocktails.Controllers
             FileDB fileDB = new();
             List<Item> _itemList = fileDB.ReadListFromFile();
 
-            _logger.LogInformation("Received request to return item by this rating: {@double}", _Rating);            
+            _logger.LogInformation("Received request to return item by this rating: {@double}", _Rating);
 
             return _itemList.Where(_itemList => _itemList.Rating >= _Rating);
 
