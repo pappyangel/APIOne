@@ -25,8 +25,13 @@ namespace cocktails.DB
         public SqlConnection  GetSqlCn()
         {
             var builder = new SqlConnectionStringBuilder(
-                _configuration["ConnectionStrings:pluralConnection"]);
-            builder.Password = _configuration.GetValue<string>("plural-sqlPWD");
+                _configuration["ConnectionStrings:defaultConnection"]);
+                // _configuration["ConnectionStrings:pluralConnection"]);
+                
+            //builder.Password = _configuration.GetValue<string>("plural-sqlPWD");
+            var keyVaultSecretLookup = _configuration["AzureKeyVaultSecret:defaultSecret"];
+            builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
+            
 
             SqlConnection pluralCn = new SqlConnection(builder.ConnectionString);
             //pluralCn.Open();

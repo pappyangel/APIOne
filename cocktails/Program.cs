@@ -23,12 +23,14 @@ namespace cocktails
             Host.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((context, config) =>
                 {
+                    var env = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
+
                     var settings = config.Build();
 
                     // Way-1
                     // Connect to Azure Key Vault using the Managed Identity.
                     //From Setting Json-- JV or TR
-                    var keyVaultEndpoint = settings["AzureKeyVaultEndpointTR"];
+                    var keyVaultEndpoint = settings["AzureKeyVaults:defaultEndpoint"];
 
                     if (!string.IsNullOrEmpty(keyVaultEndpoint))
                     {
