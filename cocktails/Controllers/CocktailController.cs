@@ -75,13 +75,13 @@ namespace cocktails.Controllers
         }
 
         // cocktail/rating/$double
-        [HttpGet("rating/{_Rating:double}")]
-        public IEnumerable<Item> GetCocktailsByRating(double _Rating)
+        [HttpGet("rating/{_Rating:decimal}")]
+        public IEnumerable<Item> GetCocktailsByRating(decimal _Rating)
         {
             FileDB fileDB = new();
             List<Item> _itemList = fileDB.ReadListFromFile();
 
-            _logger.LogInformation("Received request to return item by this rating: {@double}", _Rating);
+            _logger.LogInformation("Received request to return item by this rating: {@decimal}", _Rating);
 
             return _itemList.Where(_itemList => _itemList.Rating >= _Rating);
 

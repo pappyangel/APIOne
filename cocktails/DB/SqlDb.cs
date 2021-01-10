@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text.Json;
 using cocktails.models;
@@ -56,19 +57,12 @@ namespace cocktails.DB
             command = new SqlCommand(qry, SQLCn);
             dataReader = command.ExecuteReader();
 
-            string testResults = "";
-
             while (dataReader.Read())
-            {
-                testResults = testResults + dataReader.GetValue(1);
-
-                items.Add(new Item () { Id = Convert.ToInt32(dataReader.GetValue(0)), 
-                                        Name =  dataReader.GetValue(1).ToString(),
-                                        Price = Convert.ToDouble(dataReader.GetValue(2)),
-                                        Rating = Convert.ToDouble(dataReader.GetValue(3)),
-                                        });
-                
-
+            {                 
+                items.Add(new Item() {  Id = dataReader.GetInt32(0),
+                                        Name = dataReader.GetString(1),
+                                        Price = dataReader.GetDecimal(2),
+                                        Rating = dataReader.GetDecimal(3) });
             }
 
             // Tim beleives these are superfluous
