@@ -14,14 +14,6 @@ namespace cocktails.Controllers
 
     public class CocktailController : ControllerBase
     {
-        // private readonly Cocktail cocktail;
-        // List<Cocktail> CocktailList = new()
-        // {
-        //     new Cocktail { ID = 1, Name = "Manhattan", Price = 14.25, Rating = 4.8 },
-        //     new Cocktail { ID = 2, Name = "Cosmo", Price = 12.75, Rating = 4.0 },
-        //     new Cocktail { ID = 3, Name = "White Russian", Price = 17.50, Rating = 4.2 },
-        //     new Cocktail { ID = 4, Name = "Old Fashion", Price = 16.50, Rating = 4.5 }
-        // };
         private readonly ILogger<CocktailController> _logger;
         private readonly IConfiguration _configuration;
         public CocktailController(ILogger<CocktailController> logger, IConfiguration configuration)
@@ -34,14 +26,13 @@ namespace cocktails.Controllers
         public List<Item> GetAllCocktails()
         {
 
-
             FileDB fileDB = new();
             List<Item> _itemList = fileDB.ReadListFromFile();
 
             _logger.LogInformation("You asked for a list of all items");
 
             SqlDb _sqlDb = new(_configuration);
-           _itemList = _sqlDb.GetAllItems();
+            _itemList = _sqlDb.GetAllItems();
 
 
             return _itemList;
@@ -50,7 +41,7 @@ namespace cocktails.Controllers
 
         // cocktail/resetdb
         [HttpGet("resetdb")]
-        public IEnumerable<Item> ResetCocktailsDB()
+        public List<Item> ResetCocktailsDB()
         {
             FileDB fileDB = new();
 
@@ -63,64 +54,111 @@ namespace cocktails.Controllers
         }
 
         // cocktail/id/$int
-        [HttpGet("id/{_ID:int}")]
-        public IEnumerable<Item> GetCocktailsByID(int _Id)
+        [HttpGet("id/{id:int}")]
+        public List<Item> GetCocktailsById(int Id)
         {
-            FileDB fileDB = new();
-            List<Item> _itemList = fileDB.ReadListFromFile();
+            // FileDB fileDB = new();
+            // List<Item> _itemList = fileDB.ReadListFromFile();
+            // return _itemList.Where(_itemList => _itemList.Id == _Id);
 
-            _logger.LogInformation("Received request to return item: {@int}", _Id);
+            SqlDb sqlDb = new(_configuration);
+            List<Item> itemList = sqlDb.GetItemsById(Id);
 
-            return _itemList.Where(_itemList => _itemList.Id == _Id);
-        }
+            _logger.LogInformation("Received request to return item: {@int}", Id);
+
+            return itemList;
+
+        } // end get by ID
 
         // cocktail/rating/$double
-        [HttpGet("rating/{_Rating:decimal}")]
-        public IEnumerable<Item> GetCocktailsByRating(decimal _Rating)
+        [HttpGet("rating/{rating:decimal}")]
+        public List<Item> GetCocktailsByRating(decimal rating)
         {
-            FileDB fileDB = new();
-            List<Item> _itemList = fileDB.ReadListFromFile();
+            // To Do: move logic into new class in FileDB, retunr List<Item>
+            //FileDB fileDB = new();
+            //List<Item> _itemList = fileDB.ReadListFromFile();
+            //return _itemList.Where(_itemList => _itemList.Rating >= _Rating);
 
-            _logger.LogInformation("Received request to return item by this rating: {@decimal}", _Rating);
+            SqlDb sqlDb = new(_configuration);
+            List<Item> itemList = sqlDb.GetItemsByRating(rating);
 
-            return _itemList.Where(_itemList => _itemList.Rating >= _Rating);
+            _logger.LogInformation("Received request to return item by this rating: {@decimal}", rating);
+
+            return itemList;
 
         }
+        // cocktail/rating/$double
+        [HttpGet("price/{price:decimal}")]
+        public List<Item> GetCocktailsByPrice(decimal price)
+        {
+            // To Do: move logic into new class in FileDB, retunr List<Item>
+            //FileDB fileDB = new();
+            //List<Item> _itemList = fileDB.ReadListFromFile();
+            //return _itemList.Where(_itemList => _itemList.Rating >= _Rating);
+
+            SqlDb sqlDb = new(_configuration);
+            List<Item> itemList = sqlDb.GetItemsByPrice(price);
+
+            _logger.LogInformation("Received request to return item by this rating: {@decimal}", price);
+
+            return itemList;
+
+        }
+
 
         // cocktail/Post  -- insert new Item
         [HttpPost]
-        public void AddCocktail(Item _item)
+        public string AddCocktail(Item _item)
         {
+            // FileDB fileDB = new();
+            // fileDB.InsertItemintoList(_item);
 
-            FileDB fileDB = new();
-            fileDB.InsertItemintoList(_item);
+            int rowsAffected;
+
+            SqlDb sqlDb = new(_configuration);
+            rowsAffected = sqlDb.InsertItem(_item);
 
             _logger.LogInformation("Received request to add this item: {@Item}", _item);
 
+            return $"Row(s) inserted were: {rowsAffected}";
+
+
         }
+
         // cocktail/Put  -- update  Item by id
         [HttpPut]
-        public void UpdateCocktail(Item _item)
+        public string UpdateCocktail(Item item)
         {
+            int rowsAffected;
+            // FileDB fileDB = new();
+            // fileDB.UpdateItemInListById(_item);
 
-            FileDB fileDB = new();
-            fileDB.UpdateItemInListById(_item);
+            SqlDb sqlDb = new(_configuration);
+            rowsAffected = sqlDb.UpdateItembyId(item);
 
-            _logger.LogInformation("Received request to update this item: {@Item}", _item);
+            _logger.LogInformation("Received request to update this item: {@Item}", item);
 
+            return $"Row(s) updated were: {rowsAffected}";
 
         }
 
         // cocktail/Post  -- Delete Item
-        [HttpDelete("id/{_ID:int}")]
+        [HttpDelete("id/{id:int}")]
         //[HttpDelete]
-        public void DeleteCocktail(int _Id)
+        public string DeleteCocktail(int id)
         {
+            int rowsAffected;
 
-            FileDB fileDB = new();
-            fileDB.DeleteItemfromListById(_Id);
+            // FileDB fileDB = new();
+            // fileDB.DeleteItemfromListById(_Id);            
 
-            _logger.LogInformation("Received request to delete by this item id: {@int}", _Id);
+            SqlDb sqlDb = new(_configuration);
+            rowsAffected = sqlDb.DeleteItembyId(id);
+
+            _logger.LogInformation("Received request to delete by this item id: {@int}", id);
+
+            return $"Row(s) deleted were: {rowsAffected}";
+
         }
     }  // end of class controller
 

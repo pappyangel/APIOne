@@ -14,6 +14,14 @@ CREATE TABLE [dbo].[Items]
 );
 GO
 
+update items
+set name = 'boo', price = 25.55, rating = 3.2
+where id = 1006
+
+update i 
+set i.name = 'hoo', i.price = 25.55, i.rating = 3.2 
+from items i
+where i.id = 1006
 
 
 select *
