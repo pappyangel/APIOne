@@ -3,7 +3,7 @@
     // Use hover for the description of the existing attributes
     // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
     "version": "0.2.0",
-    "configurations": [
+    "configurations": [        
         {
             "name": "DevJim Launch WebAPI",
             "type": "coreclr",
@@ -18,8 +18,9 @@
             // "serverReadyAction": {
             //     "action": "openExternally",
             //     "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-            // },
+            // },            
             "env": {
+                "AzureServicesAuthConnectionString": "RunAs=Developer; DeveloperTool=AzureCli",
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "DOTNET_ENVIRONMENT" : "Development"
             },
