@@ -23,23 +23,27 @@ namespace cocktails
             Host.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((context, config) =>
                 {
+                    var env = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
+                    var envKVToken = Environment.GetEnvironmentVariable("AzureServicesAuthConnectionString");
+
                     var settings = config.Build();
 
-                    // Way-1
-                    // Connect to Azure Key Vault using the Managed Identity.
-                    var keyVaultEndpoint = settings["AzureKeyVaultEndpoint"];
+                    // To Do: use Managed Identity when move to Azure
 
+                    var keyVaultEndpoint = settings["AzureKeyVaults:defaultEndpoint"];
+
+                    //var azureServiceTokenProvider;
                     if (!string.IsNullOrEmpty(keyVaultEndpoint))
                     {
                         var azureServiceTokenProvider = new AzureServiceTokenProvider();
+
                         var keyVaultClient = new KeyVaultClient(
                             new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
 
                         string keyvaultURI = $"https://{keyVaultEndpoint}.vault.azure.net/";
 
                         config.AddAzureKeyVault(keyvaultURI, keyVaultClient, new DefaultKeyVaultSecretManager());
-                        
-                        
+
                     }
 
                 })

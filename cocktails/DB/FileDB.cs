@@ -14,10 +14,10 @@ namespace cocktails.DB
         {
             List<Item> _itemList = new();
             //Note: this initial list is already sorted by Id
-            _itemList.Add(new Item() { Id = 1, Name = "Martini", Price = 15.25, Rating = 4.8 });
-            _itemList.Add(new Item() { Id = 2, Name = "Manhattan", Price = 15.50, Rating = 4.5 });
-            _itemList.Add(new Item() { Id = 3, Name = "Domestic Beer", Price = 8.50, Rating = 3.0 });
-            _itemList.Add(new Item() { Id = 4, Name = "Wine", Price = 10.00, Rating = 3.5 });
+            _itemList.Add(new Item() { Id = 1, Name = "Martini", Price = 15.25M, Rating = 4.8M });
+            _itemList.Add(new Item() { Id = 2, Name = "Manhattan", Price = 15.50M, Rating = 4.5M });
+            _itemList.Add(new Item() { Id = 3, Name = "Domestic Beer", Price = 8.50M, Rating = 3.0M });
+            _itemList.Add(new Item() { Id = 4, Name = "Wine", Price = 10.00M, Rating = 3.5M });
 
             return _itemList;
 
