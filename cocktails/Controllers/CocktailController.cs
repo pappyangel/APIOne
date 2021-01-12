@@ -25,32 +25,33 @@ namespace cocktails.Controllers
         [HttpGet]
         public List<Item> GetAllCocktails()
         {
-
             FileDB fileDB = new();
-            List<Item> _itemList = fileDB.ReadListFromFile();
+            List<Item> itemList = fileDB.ReadListFromFile();
+
+            SqlDb sqlDb = new(_configuration);
+            itemList = sqlDb.GetAllItems();
 
             _logger.LogInformation("You asked for a list of all items");
 
-            SqlDb _sqlDb = new(_configuration);
-            _itemList = _sqlDb.GetAllItems();
-
-
-            return _itemList;
+            return itemList;
 
         }
 
         // cocktail/resetdb
         [HttpGet("resetdb")]
-        public List<Item> ResetCocktailsDB()
+        public void ResetCocktailsFileDB()
         {
+            List<Item> itemList;
+
             FileDB fileDB = new();
+            SqlDb sqlDb = new(_configuration);
 
-            List<Item> _itemList = fileDB.InitialDBLoad();
-            fileDB.WriteListtoFile(_itemList);
+            itemList = sqlDb.GetAllItems();
 
-            _logger.LogInformation("A DB Reset request was made.");
+            fileDB.InitialDBLoad(itemList);
 
-            return _itemList;
+            _logger.LogInformation("A FileDB Reset request was made.");
+
         }
 
         // cocktail/id/$int

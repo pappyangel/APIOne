@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.Json;
 using cocktails.models;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace cocktails.DB
 {
@@ -19,7 +17,7 @@ namespace cocktails.DB
         //public SqlDb(ILogger<SqlDb> logger, IConfiguration configuration)
         public SqlDb(IConfiguration configuration)
         {
-            // _logger = logger;
+            // _logger = logger
             _configuration = configuration;
 
         }
