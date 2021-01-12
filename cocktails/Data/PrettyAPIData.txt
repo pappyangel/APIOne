@@ -25,8 +25,14 @@
   },
   {
     "Id": 1005,
-    "Name": "Coo",
+    "Name": "Grasshopper",
     "Price": 13.25,
-    "Rating": 4.80
+    "Rating": 4.8
+  },
+  {
+    "Id": 1006,
+    "Name": "Sidecar",
+    "Price": 12.50,
+    "Rating": 3.8
   }
 ]

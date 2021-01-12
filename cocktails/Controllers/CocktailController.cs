@@ -26,7 +26,7 @@ namespace cocktails.Controllers
         public List<Item> GetAllCocktails()
         {
             FileDB fileDB = new();
-            List<Item> itemList = fileDB.ReadListFromFile();
+            List<Item> itemList = fileDB.GetAllItems();
 
             SqlDb sqlDb = new(_configuration);
             itemList = sqlDb.GetAllItems();
@@ -58,51 +58,46 @@ namespace cocktails.Controllers
         [HttpGet("id/{id:int}")]
         public List<Item> GetCocktailsById(int Id)
         {
-            // FileDB fileDB = new();
-            // List<Item> _itemList = fileDB.ReadListFromFile();
-            // return _itemList.Where(_itemList => _itemList.Id == _Id);
-
+            FileDB fileDB = new();
+            List<Item> fileItemList = fileDB.GetItemsbyId(Id);
+            
             SqlDb sqlDb = new(_configuration);
-            List<Item> itemList = sqlDb.GetItemsById(Id);
+            List<Item> sqlItemList = sqlDb.GetItemsById(Id);
 
             _logger.LogInformation("Received request to return item: {@int}", Id);
 
-            return itemList;
+            return sqlItemList;
 
         } // end get by ID
 
-        // cocktail/rating/$double
+        
         [HttpGet("rating/{rating:decimal}")]
         public List<Item> GetCocktailsByRating(decimal rating)
         {
-            // To Do: move logic into new class in FileDB, retunr List<Item>
-            //FileDB fileDB = new();
-            //List<Item> _itemList = fileDB.ReadListFromFile();
-            //return _itemList.Where(_itemList => _itemList.Rating >= _Rating);
+            FileDB fileDB = new();
+            List<Item> fileItemList = fileDB.GetItemsbyRating(rating);
 
             SqlDb sqlDb = new(_configuration);
-            List<Item> itemList = sqlDb.GetItemsByRating(rating);
+            List<Item> sqlItemList = sqlDb.GetItemsByRating(rating);
 
             _logger.LogInformation("Received request to return item by this rating: {@decimal}", rating);
 
-            return itemList;
+            return sqlItemList;
 
         }
-        // cocktail/rating/$double
+       
         [HttpGet("price/{price:decimal}")]
         public List<Item> GetCocktailsByPrice(decimal price)
         {
-            // To Do: move logic into new class in FileDB, retunr List<Item>
-            //FileDB fileDB = new();
-            //List<Item> _itemList = fileDB.ReadListFromFile();
-            //return _itemList.Where(_itemList => _itemList.Rating >= _Rating);
+            FileDB fileDB = new();
+            List<Item> fileItemList = fileDB.GetItemsbyPrice(price);
 
             SqlDb sqlDb = new(_configuration);
-            List<Item> itemList = sqlDb.GetItemsByPrice(price);
+            List<Item> sqlItemList = sqlDb.GetItemsByPrice(price);
 
             _logger.LogInformation("Received request to return item by this rating: {@decimal}", price);
 
-            return itemList;
+            return sqlItemList;
 
         }
 
@@ -111,10 +106,10 @@ namespace cocktails.Controllers
         [HttpPost]
         public string AddCocktail(Item _item)
         {
-            // FileDB fileDB = new();
-            // fileDB.InsertItemintoList(_item);
-
             int rowsAffected;
+
+            FileDB fileDB = new();
+            fileDB.InsertItemintoList(_item);            
 
             SqlDb sqlDb = new(_configuration);
             rowsAffected = sqlDb.InsertItem(_item);
@@ -123,7 +118,6 @@ namespace cocktails.Controllers
 
             return $"Row(s) inserted were: {rowsAffected}";
 
-
         }
 
         // cocktail/Put  -- update  Item by id
@@ -131,8 +125,8 @@ namespace cocktails.Controllers
         public string UpdateCocktail(Item item)
         {
             int rowsAffected;
-            // FileDB fileDB = new();
-            // fileDB.UpdateItemInListById(_item);
+            FileDB fileDB = new();
+            fileDB.UpdateItemInListById(item);
 
             SqlDb sqlDb = new(_configuration);
             rowsAffected = sqlDb.UpdateItembyId(item);
@@ -150,8 +144,8 @@ namespace cocktails.Controllers
         {
             int rowsAffected;
 
-            // FileDB fileDB = new();
-            // fileDB.DeleteItemfromListById(_Id);            
+            FileDB fileDB = new();
+            fileDB.DeleteItemfromListById(id);            
 
             SqlDb sqlDb = new(_configuration);
             rowsAffected = sqlDb.DeleteItembyId(id);

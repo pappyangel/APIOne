@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System;
 using cocktails.models;
+using System.Linq;
 
 namespace cocktails.DB
 {
@@ -19,7 +20,7 @@ namespace cocktails.DB
             // _itemList.Add(new Item() { Id = 3, Name = "Domestic Beer", Price = 8.50M, Rating = 3.0M });
             // _itemList.Add(new Item() { Id = 4, Name = "Wine", Price = 10.00M, Rating = 3.5M });
 
-            WriteListtoFile(items);            
+            WriteListtoFile(items);
 
         }
         public void InsertItemintoList(Item _item)
@@ -47,13 +48,13 @@ namespace cocktails.DB
         }
 
 
-        public  void DeleteItemfromListById(int _Id)
+        public void DeleteItemfromListById(int _Id)
         {
 
             // read list from file
             List<Item> _ItemListFromDisk = ReadListFromFile();
 
-           //delete the item if it exists from post
+            //delete the item if it exists from post
             if (_ItemListFromDisk.Exists(x => x.Id == _Id))
             {
                 // remove item from list
@@ -65,7 +66,7 @@ namespace cocktails.DB
             WriteListtoFile(_ItemListFromDisk);
 
         }
-        public  void UpdateItemInListById(Item _item)
+        public void UpdateItemInListById(Item _item)
         {
 
             // read list from file
@@ -73,7 +74,7 @@ namespace cocktails.DB
 
             if (_ItemListFromDisk.Exists(x => x.Id == _item.Id))
             {
-                Item _ItemtoUpdate = _ItemListFromDisk.Find(p => p.Id ==_item.Id);
+                Item _ItemtoUpdate = _ItemListFromDisk.Find(p => p.Id == _item.Id);
 
                 _ItemtoUpdate.Name = _item.Name;
                 _ItemtoUpdate.Price = _item.Price;
@@ -92,7 +93,51 @@ namespace cocktails.DB
 
         }
 
-          public List<Item> ReadListFromFile()
+        public List<Item> GetAllItems()
+        {
+            return ReadListFromFile();
+
+        }
+
+        public List<Item> GetItemsbyId(int id)
+        {
+            FileDB fileDB = new();
+            List<Item> itemList = fileDB.ReadListFromFile();                 
+
+            var junk = itemList.Find(x => x.Id == id);
+
+            var result = from s in itemList where s.Id == id select s;
+
+            return result.ToList();
+
+        }
+          public List<Item> GetItemsbyRating(decimal rating)
+        {
+            FileDB fileDB = new();
+            List<Item> itemList = fileDB.ReadListFromFile();                 
+
+            var junk = itemList.FindAll(x => x.Rating >= rating);
+
+            var result = from s in itemList where s.Rating >= rating select s;
+
+            return result.ToList();
+
+        }
+
+          public List<Item> GetItemsbyPrice(decimal price)
+        {
+            FileDB fileDB = new();
+            List<Item> itemList = fileDB.ReadListFromFile();                 
+
+            var junk = itemList.FindAll(x => x.Rating <= price);
+
+            var result = from s in itemList where s.Rating <= price select s;
+
+            return result.ToList();
+
+        }        
+
+        private List<Item> ReadListFromFile()
         {
             // in method variable
             List<Item> _items = new();
