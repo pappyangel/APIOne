@@ -1,0 +1,14 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: sqlstatestore
+spec:
+  type: state.sqlserver
+  version: v1
+  metadata:
+  - name: connectionString    
+    value: server=c19-gamenight.database.windows.net;user id=dbadmin;password=Pass@Word1;port=1433;database=drawing-db;    
+  - name: tableName
+    value: items
+scopes:
+  - JFV-SQLservice

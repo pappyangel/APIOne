@@ -2,6 +2,22 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "JFV SQL Store Service",
+            "command": "dapr",
+            "args": [
+                "run",
+                "--app-id",
+                "JFV-SQLservice",
+                "--components-path",
+                "${workspaceFolder}/components/local",                
+                "--dapr-grpc-port",
+                "5401",
+                "--dapr-http-port",
+                "5480"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "build",
             "command": "dotnet",
             "type": "process",
