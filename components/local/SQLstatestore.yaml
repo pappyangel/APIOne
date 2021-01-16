@@ -8,6 +8,8 @@ spec:
   metadata:
   - name: connectionString    
     value: server=c19-gamenight.database.windows.net;user id=dbadmin;password=Pass@Word1;port=1433;database=drawing-db;    
+  - name: schema
+    value: dbadmin
   - name: tableName
     value: items
 scopes:

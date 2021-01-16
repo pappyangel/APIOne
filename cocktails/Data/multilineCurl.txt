@@ -1,0 +1,50 @@
+curl -X POST http://localhost:5480/v1.0/state/sqlstatestore \
+  -H "Content-Type: application/json" \
+  -d '[
+        {
+          "key": "Id",
+          "value": "8888"
+        },
+        {
+          "key": "Name",
+          "value": "Mule"          
+        },
+        {
+          "key": "Price",
+          "value": 12          
+        },
+        {
+          "key": "Rating",
+          "value": 3.8          
+        }
+    ]'
+
+curl -X POST http://localhost:5480/v1.0/state/sqlstatestore \
+  -H "Content-Type: application/json" \
+  -d '[
+        {
+          "key": "weapon",
+          "value": "DeathStar"
+        },
+        {
+          "key": "planet",
+          "value": {
+            "name": "Tatooine"
+          }
+        }
+      ]'
+curl -X POST http://localhost:5480/v1.0/state/sqlstatestore \
+  -H "Content-Type: application/json" \
+  -d '[        
+        {
+          "key": "7777",
+          "value": {
+            "name": "whiskey sour",
+            "Price": "13.55",
+            "Rating" : "4.2"
+          }
+        }
+      ]'
+      curl -i -X POST http://localhost:5480/v1.0/state/sqlstatestore \
+      -H "Content-Type: application/json" \
+      -d  "{\"storeId\": \"Redmond\",\"customerName\": \"Ronald Weasley\",\"loyaltyId\": \"1\", \"orderItems\":[{\"menuItemId\": 1,\"quantity\": 1},{\"menuItemId\": 2,\"quantity\": 2}]}" 

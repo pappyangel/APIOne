@@ -23,9 +23,12 @@ set i.name = 'hoo', i.price = 25.55, i.rating = 3.2
 from items i
 where i.id = 1006
 
-
 select *
 from items
+GO
+
+select *
+from dbadmin.items
 
 insert into items
     (Name, Price ,Rating)
@@ -37,3 +40,7 @@ values
     ,('Beer'    , 5.75  , 3.0)
     ,('Wine'    , 10.75 , 3.5)
     
+
+CREATE TYPE LocationTableType AS TABLE   
+    ( LocationName VARCHAR(50)  
+    , CostRate INT ); 
