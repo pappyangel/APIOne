@@ -1,0 +1,15 @@
+{
+    "name": "MSFTJim Codespace Defaults",
+    "extensions": [
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+        "mhutchie.git-graph",
+        "ms-dotnettools.csharp",
+        "ms-vscode.azure-account",
+        "humao.rest-client",
+        "ms-vsliveshare.vsliveshare",
+    ],
+    "containerEnv": {
+        "DOGVAR": "Cosmo"
+    }
+}
