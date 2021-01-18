@@ -1,0 +1,34 @@
+﻿@page
+@model CocktailsModel
+@{
+    ViewData["Title"] = "Cocktails Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Review the cocktails menu</a>.</p>
+</div>
+
+<table>
+    <tbody> 
+        @{
+            @foreach (var record in @Model.cocktailList)
+            {
+                <tr>
+                    <td>
+                        Name: @Html.DisplayFor(modelItem => record.Name), 
+                    </td>
+                    <td>
+                        Price: @Html.DisplayFor(modelItem => record.Price), 
+                    </td>
+                    <td>
+                        Rating: @Html.DisplayFor(modelItem => record.Rating), 
+                    </td>
+                    <td>
+                        Id: @Html.DisplayFor(modelItem => record.Id)
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
