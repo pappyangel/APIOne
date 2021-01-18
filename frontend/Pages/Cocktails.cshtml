@@ -10,26 +10,40 @@
     <p>@Model.dog</a>.</p>
 </div>
 
-<table>
-    <tbody> 
-        @{
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+th, td {
+  padding: 25px;
+}
+</style>
+
+<table>         
+    <thead>
+        <tr>
+        <th>Name</th> <th>Price</th> <th>Rating</th> <th>Id</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{          
             @foreach (var record in @Model.cocktailList)
             {
-                <tr>
-                    <td>
-                        Name: @Html.DisplayFor(modelItem => record.Name), 
-                    </td>
-                    <td>
-                        Price: @Html.DisplayFor(modelItem => record.Price), 
-                    </td>
-                    <td>
-                        Rating: @Html.DisplayFor(modelItem => record.Rating), 
-                    </td>
-                    <td>
-                        Id: @Html.DisplayFor(modelItem => record.Id)
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => record.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => record.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => record.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => record.Id)
+                </td>
+            </tr>                    
             }
         }
-    </tbody>
+    </tbody>    
 </table>
