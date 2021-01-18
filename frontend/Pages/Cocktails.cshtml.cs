@@ -23,45 +23,14 @@ namespace frontend.Pages
         }
         public List<Item> cocktailList = new();
         public string dog = "Cosmo";
-        public class Cookie
-        {
-            public int cookieId { get; set; }
-            public string cookieName { get; set; }
-            public decimal cookiePrice { get; set; }
-            public decimal cookieRating { get; set; }
-        }
-        public List<Cookie> Cookies = new();
-
-        public async void OnGet()
-        {
-
-            List<Item> junk = new();
+        
+        public async Task OnGet()
+        {         
             HttpClient APIclient = new HttpClient();
 
-            // APIclient.DefaultRequestHeaders.Accept.Clear();
-            // APIclient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");                        
 
-            // string url = "https://localhost:5001/cocktails";
-            // url = "http://localhost:5000/cocktails";                        
-
-            // HttpResponseMessage response = await APIclient.GetAsync(url);
-
-            // var APIData = await response.Content.ReadAsStringAsync();            
-
-            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");
-
-            //junk = JsonSerializer.Deserialize(APIData,List<Item>,);
-            // cocktailList = JsonSerializer.Deserialize<List<Item>>(APIData);
-
-            
-
-            foreach (var item in cocktailList)
-            {
-                Cookies.Add(new Cookie() {cookieId = item.Id, cookieName = item.Name, cookiePrice=item.Price,cookieRating=item.Rating});
-            }
-
-            
-            junk = cocktailList;
+            // return ;
 
         }
     }
