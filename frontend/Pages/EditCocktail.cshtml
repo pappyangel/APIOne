@@ -1,0 +1,41 @@
+﻿@page
+@model frontend.Pages.EditCocktailModel
+@{
+    ViewData["Title"] = "Edit Cocktails Page";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Edit Cocktail Page</h1>
+    <p>Review & edit your cocktail</a>.</p>    
+</div>
+
+<h2>Details</h2>
+
+<table>
+    <tr>
+        <td>
+            Id: @Html.DisplayNameFor(model => model.cocktailToEdit.Id)
+        </td>
+    </tr>    
+    <tr>
+        <td>
+            <form method="post">
+                <input type="text" name="name" value = @Html.DisplayFor(model => model.cocktailToEdit.Name)>                 
+                <input type="submit">
+            </form>
+            
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Price: @Html.DisplayFor(model => model.cocktailToEdit.Price)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Rating: @Html.DisplayFor(model => model.cocktailToEdit.Rating)
+        </td>
+    </tr>
+
+</table>

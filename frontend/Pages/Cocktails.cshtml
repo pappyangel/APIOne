@@ -1,11 +1,14 @@
 ﻿@page
+@using System.Text.Json;
 @model CocktailsModel
+
+
 @{
     ViewData["Title"] = "Cocktails Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Cocktail Menu</h1>
     <p>Review the cocktails menu</a>.</p>
     <p>@Model.dog</a>.</p>
 </div>
@@ -29,6 +32,8 @@ th, td {
         @{          
             @foreach (var record in @Model.cocktailList)
             {
+                Dictionary<string, string> dictCocktail = 
+                new Dictionary<string, string> { { "cocktailToPass", JsonSerializer.Serialize(record) } };
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => record.Name)
@@ -39,8 +44,10 @@ th, td {
                 <td>
                     @Html.DisplayFor(modelItem => record.Rating)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => record.Id)
+                <td>        
+                    @* <a asp-page="/EditCocktail" asp-route-id=@record.Id>@Html.DisplayFor(modelItem => record.Id)</a> *@
+                    <a asp-page="/EditCocktail" asp-all-route-data="dictCocktail">@Html.DisplayFor(modelItem => record.Id)</a>
+                    
                 </td>
             </tr>                    
             }

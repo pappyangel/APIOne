@@ -28,10 +28,15 @@ namespace frontend.Pages
         {         
             HttpClient APIclient = new HttpClient();
 
-            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");                        
-
-            // return ;
+            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");                                    
 
         }
+
+        public void OnPost()
+        {
+            int dog = 1;
+            dog++;
+        }
+
     }
 }
