@@ -1,13 +1,15 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace frontend.models
 {
 
 public interface ICocktailRepository
-{
-    List<Item> GetItems();
+{    
+    void GetItemsAsync();
+    // Task<List<Item>> GetItemsAsync();
 
-    Item GetItems(int Id);
+    Item GetItem(int Id);
 
 }
 

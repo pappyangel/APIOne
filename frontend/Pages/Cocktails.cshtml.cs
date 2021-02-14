@@ -17,18 +17,28 @@ namespace frontend.Pages
     {
         private readonly ILogger<IndexModel> _logger;
 
-        public CocktailsModel(ILogger<IndexModel> logger)
+        public ICocktailRepository _cocktailRepository;
+
+        public CocktailsModel(ILogger<IndexModel> logger,ICocktailRepository cocktailRepository)
         {
             _logger = logger;
+            _cocktailRepository = cocktailRepository;
         }
         public List<Item> cocktailList = new();
         public string dog = "Cosmo";
         
-        public async Task OnGet()
+        public void OnGet()
         {         
-            HttpClient APIclient = new HttpClient();
+            // HttpClient APIclient = new HttpClient();
 
-            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");                                    
+            // cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");       
+
+            //_cocktailRepository.
+            cocktailList = (List<Item>)_cocktailRepository;
+
+
+            // create an instance of CocktailRepositoy Foo
+            // don't want  call Foo.GetItems                            
 
         }
 

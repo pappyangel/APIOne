@@ -1,16 +1,29 @@
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 
 namespace frontend.models
 {
 
-    public class APICoctailRepository : ICocktailRepository
+    public class APICocktailRepository : ICocktailRepository
     {
-        public List<Item> GetItems()
+        public List<Item> cocktailList { get; private set; }
+
+        public APICocktailRepository()
         {
-            throw new System.NotImplementedException();
+            GetItemsAsync(); 
         }
 
-        public Item GetItems(int Id)
+        public async void GetItemsAsync()
+        {
+            HttpClient APIclient = new HttpClient();
+
+            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");
+
+        }
+
+        public Item GetItem(int Id)
         {
             throw new System.NotImplementedException();
         }
