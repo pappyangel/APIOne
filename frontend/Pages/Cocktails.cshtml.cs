@@ -24,17 +24,20 @@ namespace frontend.Pages
             _logger = logger;
             _cocktailRepository = cocktailRepository;
         }
-        public List<Item> cocktailList = new();
+        //public List<Item> cocktailList = new();
+        public List<Item> cocktailList;
         public string dog = "Cosmo";
         
-        public void OnGet()
+        public async void OnGet()
         {         
             // HttpClient APIclient = new HttpClient();
 
             // cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");       
 
             //_cocktailRepository.
-            cocktailList = (List<Item>)_cocktailRepository;
+            cocktailList = await _cocktailRepository.GetItemsAsync();
+
+            dog = "Lucy";
 
 
             // create an instance of CocktailRepositoy Foo
