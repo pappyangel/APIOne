@@ -30,10 +30,8 @@ th, td {
     </thead>
     <tbody>
         @{          
-            @foreach (var record in @Model.cocktailList)
-            {
-                Dictionary<string, string> dictCocktail = 
-                new Dictionary<string, string> { { "cocktailToPass", JsonSerializer.Serialize(record) } };
+            @foreach (var record in @Model.pageCocktailList)
+            {               
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => record.Name)
@@ -45,8 +43,8 @@ th, td {
                     @Html.DisplayFor(modelItem => record.Rating)
                 </td>
                 <td>        
-                    @* <a asp-page="/EditCocktail" asp-route-id=@record.Id>@Html.DisplayFor(modelItem => record.Id)</a> *@
-                    <a asp-page="/EditCocktail" asp-all-route-data="dictCocktail">@Html.DisplayFor(modelItem => record.Id)</a>
+                    <a asp-page="/EditCocktail" asp-route-id=@record.Id>@Html.DisplayFor(modelItem => record.Id)</a>
+                    @* <a asp-page="/EditCocktail" asp-all-route-data="dictCocktail">@Html.DisplayFor(modelItem => record.Id)</a> *@
                     
                 </td>
             </tr>                    

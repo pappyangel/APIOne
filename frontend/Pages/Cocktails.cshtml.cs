@@ -25,23 +25,15 @@ namespace frontend.Pages
             _cocktailRepository = cocktailRepository;
         }
         //public List<Item> cocktailList = new();
-        public List<Item> cocktailList;
+        public List<Item> pageCocktailList = new();
         public string dog = "Cosmo";
         
-        public async void OnGet()
-        {         
-            // HttpClient APIclient = new HttpClient();
-
-            // cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");       
-
+        public async Task<IActionResult> OnGet()
+        {               
             //_cocktailRepository.
-            cocktailList = await _cocktailRepository.GetItemsAsync();
+            pageCocktailList = await _cocktailRepository.GetItemsAsync();            
 
-            dog = "Lucy";
-
-
-            // create an instance of CocktailRepositoy Foo
-            // don't want  call Foo.GetItems                            
+            return Page();
 
         }
 

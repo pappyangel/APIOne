@@ -12,10 +12,12 @@ namespace frontend.models
         private List<Item> cocktailList { get; set; }
         private HttpClient APIclient = new HttpClient();
 
-        // public APICocktailRepository()
-        // {
-        //     GetItemsAsync(); 
-        // }
+        public APICocktailRepository()
+        {
+            int dog = 0;
+            dog++;
+            // GetItemsAsync(); 
+        }
 
         public async Task<List<Item>> GetItemsAsync()
         {
@@ -26,8 +28,10 @@ namespace frontend.models
         }
 
         public Item GetItem(int Id)
-        {
-            throw new System.NotImplementedException();
+        {            
+            Item item = cocktailList.Find(e => e.Id == Id);
+            return item;
+            //return cocktailList.Find(e => e.Id == Id);
         }
     }
 

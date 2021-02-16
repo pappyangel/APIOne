@@ -11,11 +11,23 @@ namespace frontend.Pages
 {
     public class EditCocktailModel : PageModel
     {
-        
-        public Item cocktailToEdit = new();
-        public IActionResult OnGet(string cocktailToPass)
+
+        public ICocktailRepository cocktailRepository;
+        public Item cocktailToEdit;
+
+        public EditCocktailModel(ICocktailRepository cocktailRepository)
         {
-            cocktailToEdit = JsonSerializer.Deserialize<Item>(cocktailToPass);
+            this.cocktailRepository = cocktailRepository;
+        }
+
+
+
+        // public IActionResult OnGet(string cocktailToPass)
+        public IActionResult OnGet(int id)
+        {
+            cocktailToEdit = cocktailRepository.GetItem(id);
+            
+            // cocktailToEdit = JsonSerializer.Deserialize<Item>(cocktailToPass);            
             int dog = 0;
             dog = cocktailToEdit.Id;
 
