@@ -13,7 +13,9 @@ namespace frontend.Pages
     {
 
         public ICocktailRepository cocktailRepository;
-        public Item cocktailToEdit;
+        
+        // [BindProperty]
+        public Item cocktailToEdit {get;set;}
 
         public EditCocktailModel(ICocktailRepository cocktailRepository)
         {
@@ -26,12 +28,23 @@ namespace frontend.Pages
         public IActionResult OnGet(int id)
         {
             cocktailToEdit = cocktailRepository.GetItem(id);
+            return Page();
+
+        }
+
+        public async Task<IActionResult> OnPost(Item cocktailToEdit)
+        {
             
-            // cocktailToEdit = JsonSerializer.Deserialize<Item>(cocktailToPass);            
             int dog = 0;
+            // dog = item.Id;
             dog = cocktailToEdit.Id;
 
-            return Page();
+            // List<Item> bobo = await cocktailRepository.UpdateItemAsync(cocktailToEdit);
+            await cocktailRepository.UpdateItemAsync(cocktailToEdit);
+            // dog = cocktailfromPost.Id;
+
+
+            return Redirect("/Cocktails");
 
         }
     }

@@ -12,6 +12,9 @@ public interface ICocktailRepository
 
     Item GetItem(int Id);
 
-}
+    Task<List<Item>> UpdateItemAsync(Item updatedItem);
+    
+    //Task<List<Item>> UpdateItemAsync(Item cocktailToEdit);
+    }
 
 }

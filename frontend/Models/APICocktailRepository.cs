@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +18,7 @@ namespace frontend.models
         {
             int dog = 0;
             dog++;
-            // GetItemsAsync(); 
+            //GetItemsAsync(); 
         }
 
         public async Task<List<Item>> GetItemsAsync()
@@ -28,10 +30,23 @@ namespace frontend.models
         }
 
         public Item GetItem(int Id)
-        {            
+        {
             Item item = cocktailList.Find(e => e.Id == Id);
             return item;
             //return cocktailList.Find(e => e.Id == Id);
+        }
+
+        public async Task<List<Item>> UpdateItemAsync(Item updatedItem)
+        {            
+            var jsonItem = JsonSerializer.Serialize(updatedItem);
+            var httpContent = new StringContent(jsonItem, Encoding.UTF8, "application/json");
+            var url = "http://localhost:5000/cocktails";
+            var response = await APIclient.PutAsync(url, httpContent);
+            
+            
+            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");
+
+            return cocktailList;
         }
     }
 
