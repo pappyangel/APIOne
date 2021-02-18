@@ -1,0 +1,25 @@
+@page
+@model frontend.Pages.DeleteCocktailModel
+@{
+    ViewData["Title"] = "Delete Cocktail Page";
+}
+
+
+<h1>Delete Confirmation</h1>
+
+<div class="alert alert-danger">
+    <h5>Are you sure you want to delete this cocktail: </h5>
+    <br>
+    <h5> @Model.cocktailToDelete.Name </h5>
+    <p>
+        Id: @Model.cocktailToDelete.Id
+    <br>
+        Price: @Model.cocktailToDelete.Price
+    <br>
+        Rating: @Model.cocktailToDelete.Rating
+    </p>
+    <form method="post">
+        <button type="submit" class="btn btn-danger">Yes</button>
+        <a asp-page="/Cocktails" class="btn btn-primary">No</a>
+    </form>
+</div>

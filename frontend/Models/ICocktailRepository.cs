@@ -14,7 +14,9 @@ public interface ICocktailRepository
 
     Task<List<Item>> UpdateItemAsync(Item updatedItem);
     
-    //Task<List<Item>> UpdateItemAsync(Item cocktailToEdit);
+    Task<List<Item>> AddItemAsync(Item cocktailToAdd);
+    Task<List<Item>> DeleteItemAsync(int cocktailIdToDelete);
+
     }
 
 }

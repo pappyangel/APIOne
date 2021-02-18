@@ -47,6 +47,33 @@ namespace frontend.models
             cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");
 
             return cocktailList;
+        }        
+
+        public async Task<List<Item>> AddItemAsync(Item cocktailToAdd)
+        {
+            var jsonItem = JsonSerializer.Serialize(cocktailToAdd);
+            var httpContent = new StringContent(jsonItem, Encoding.UTF8, "application/json");
+            var url = "http://localhost:5000/cocktails";
+            var response = await APIclient.PostAsync(url, httpContent);
+            
+            
+            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");
+
+            return cocktailList;
+        }
+
+        public async Task<List<Item>> DeleteItemAsync(int cocktailIdToDelete)
+        {            
+            var url = "http://localhost:5000/cocktails";
+            var deleteUrl = url + "/id/" + cocktailIdToDelete;
+            var response = await APIclient.DeleteAsync(deleteUrl);
+            
+            
+            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");
+
+            return cocktailList;
+
+         
         }
     }
 

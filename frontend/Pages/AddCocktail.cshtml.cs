@@ -9,32 +9,30 @@ using System.Text.Json;
 
 namespace frontend.Pages
 {
-    public class EditCocktailModel : PageModel
+    public class AddCocktailModel : PageModel
     {
 
         public ICocktailRepository cocktailRepository;
         
         // [BindProperty]
-        public Item cocktailToEdit {get;set;}
+        public Item cocktailToAdd {get;set;}
 
-        public EditCocktailModel(ICocktailRepository cocktailRepository)
+        public AddCocktailModel(ICocktailRepository cocktailRepository)
         {
             this.cocktailRepository = cocktailRepository;
         }
 
 
         // public IActionResult OnGet(string cocktailToPass)
-        public IActionResult OnGet(int id)
-        {
-            cocktailToEdit = cocktailRepository.GetItem(id);
-            return Page();
-
+        public void OnGet()
+        {            
+            
         }
 
-        public async Task<IActionResult> OnPost(Item cocktailToEdit)
+        public async Task<IActionResult> OnPost(Item cocktailToAdd)
         {
-            // call the update method
-            await cocktailRepository.UpdateItemAsync(cocktailToEdit);
+            // call the add method
+            await cocktailRepository.AddItemAsync(cocktailToAdd);
          
             // redirect to summary page
             return Redirect("/Cocktails");
