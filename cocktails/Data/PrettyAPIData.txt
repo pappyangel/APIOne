@@ -2,7 +2,7 @@
   {
     "Id": 1001,
     "Name": "JimTini",
-    "Price": 8.50,
+    "Price": 12.50,
     "Rating": 4.50
   },
   {
@@ -34,5 +34,17 @@
     "Name": "Sidecar",
     "Price": 12.50,
     "Rating": 3.8
+  },
+  {
+    "Id": 1007,
+    "Name": "JimTini",
+    "Price": 13,
+    "Rating": 4.50
+  },
+  {
+    "Id": 1008,
+    "Name": "Bobo Special",
+    "Price": 8.5,
+    "Rating": 2.5
   }
 ]

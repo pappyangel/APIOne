@@ -1,0 +1,44 @@
+﻿@page
+@using System.Text.Json;
+@model CocktailsModel
+
+
+@{
+    ViewData["Title"] = "Cocktails Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Cocktail Menu</h1>
+    <p>Review the cocktails menu</a>.</p>
+    <p> <a asp-page="/AddCocktail"> Add a cockatil here! </a></p>
+</div>
+
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+th, td {
+  padding: 25px;
+}
+</style>
+
+<div class="card-deck">
+    @foreach (var item in Model.pageCocktailList)
+    {        
+        <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
+            <div class="card-header">
+                <h3>@item.Name</h3>
+                <p>Price: @item.Price
+                <br>
+                Rating: @item.Rating</p>
+
+            </div>    
+
+            <div class="card-footer text-center">
+                @* <a href="#" class="btn btn-primary m-1">View</a> *@
+                <a asp-page="/EditCocktail" asp-route-ID="@item.Id" class="btn btn-primary m-1">Edit</a>
+                <a asp-page="/DeleteCocktail" asp-route-ID="@item.Id"  class="btn btn-danger m-1">Delete</a>
+            </div>
+        </div>
+    }
+</div>
