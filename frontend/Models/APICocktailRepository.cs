@@ -41,8 +41,7 @@ namespace frontend.models
             var jsonItem = JsonSerializer.Serialize(updatedItem);
             var httpContent = new StringContent(jsonItem, Encoding.UTF8, "application/json");
             var url = "http://localhost:5000/cocktails";
-            var response = await APIclient.PutAsync(url, httpContent);
-            
+            var response = await APIclient.PutAsync(url, httpContent);            
             
             cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");
 

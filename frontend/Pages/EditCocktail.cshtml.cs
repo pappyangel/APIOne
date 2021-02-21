@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using frontend.models;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace frontend.Pages
 {
@@ -22,6 +24,12 @@ namespace frontend.Pages
             this.cocktailRepository = cocktailRepository;
         }
 
+        [BindProperty]
+        public IFormFile ctImage { get; set; }
+        
+        public MemoryStream inMemImage = new MemoryStream(100);
+        
+
 
         // public IActionResult OnGet(string cocktailToPass)
         public IActionResult OnGet(int id)
@@ -31,13 +39,20 @@ namespace frontend.Pages
 
         }
 
-        public async Task<IActionResult> OnPost(Item cocktailToEdit)
-        {
+        public IActionResult OnPost(Item cocktailToEdit)
+        {            
+            inMemImage.SetLength(ctImage.Length);
+            ctImage.CopyTo(inMemImage);
+            cocktailToEdit.cocktailImage = inMemImage.ToArray();
+
+            return Page();
+
+            
             // call the update method
-            await cocktailRepository.UpdateItemAsync(cocktailToEdit);
+            //await cocktailRepository.UpdateItemAsync(cocktailToEdit);
          
             // redirect to summary page
-            return Redirect("/Cocktails");
+            //return Redirect("/Cocktails");
 
         }
     }

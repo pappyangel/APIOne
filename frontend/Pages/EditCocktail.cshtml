@@ -2,6 +2,20 @@
 @model frontend.Pages.EditCocktailModel
 @{
     ViewData["Title"] = "Edit Cocktails Page";
+    //var html-src-content = "~/images/" + (Model.Employee.PhotoPath ?? "noimage.jpg");
+    //var html_src_content = "";
+
+    var srcContent = "";
+    
+    if (@Model.cocktailToEdit.cocktailImage != null)
+    {        
+        srcContent = "(data:image/jpg;base64,@Convert.ToBase64String(@Model.cocktailToEdit.cocktailImage)";
+    }
+    {
+        srcContent = "~/images/martini.jpg";
+    }
+    
+
 }
 
 
@@ -12,7 +26,7 @@
 
 <h2>Details</h2>
 
-<form method="post" class="mt-3">
+<form method="post" class="mt-3" enctype="multipart/form-data">
     @*Use hidden input elements to store employee id which
         we need when we submit the form*@
     @* <input hidden asp-for="cocktailToEdit.Id" /> *@
@@ -46,12 +60,49 @@
             <input asp-for="cocktailToEdit.Rating" class="form-control" placeholder="Rating">
         </div>
     </div>
+
+  <div class="form-group row">
+        <label asp-for="ctImage" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <div class="custom-file">
+                @*Photo property type is IFormFile, so ASP.NET Core
+                    automatically creates a FileUpload control  *@
+                <input asp-for="ctImage" class="custom-file-input form-control">
+                <label class="custom-file-label">Click here to change photo</label>
+            </div>
+        </div>
+    </div>
+
+    @*Display the existing employee photo*@
+    <div class="form-group row col-sm-4 offset-4">
+        @* <img class="imageThumbnail" src="~/images/martini.jpg" asp-append-version="true" /> *@
+        @* <img class="imageThumbnail" src="data:image/jpg;base64,@Convert.ToBase64String(@Model.cocktailToEdit.cocktailImage)" asp-append-version="true" /> *@
+        <img class="imageThumbnail" src="@srcContent" asp-append-version="true" />
+        
+        
+    </div>
+
+    
     <div class="form-group row">
         <div class="col-sm-10">
             <button type="submit" class="btn btn-primary">Update</button>
             <a asp-page="/Cocktails" class="btn btn-primary">Cancel</a>
         </div>
     </div>
+
+@*This jquery code is required to display the selected
+        file name in the file upload controls*@
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $('.custom-file-input').on("change", function () {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).next('.custom-file-label').html(fileName);
+                });
+            });
+        </script>
+    }
+
 </form>
 
 
