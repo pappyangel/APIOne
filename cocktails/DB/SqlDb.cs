@@ -56,7 +56,8 @@ namespace cocktails.DB
                     Id = dataReader.GetInt32(0),
                     Name = dataReader.GetString(1),
                     Price = dataReader.GetDecimal(2),
-                    Rating = dataReader.GetDecimal(3)
+                    Rating = dataReader.GetDecimal(3),
+                    ImagePath = dataReader.GetString(4)
                 });
             }
 
@@ -146,7 +147,8 @@ namespace cocktails.DB
         {
             int crudResult;
             string tblName = "items";
-            string sql = $"Update t Set t.name = '{item.Name}', t.price = {item.Price}, t.rating = {item.Rating} From {tblName} t where t.id = {item.Id}";
+            string sql = $"Update t Set t.name = '{item.Name}', t.price = {item.Price}, t.rating = {item.Rating}, t.ImagePath = '{item.ImagePath}'"
+             + $" From {tblName} t where t.id = {item.Id}";
 
             crudResult = CRUD(sql);
 

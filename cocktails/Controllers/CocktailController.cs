@@ -25,8 +25,10 @@ namespace cocktails.Controllers
         [HttpGet]
         public List<Item> GetAllCocktails()
         {
-            FileDB fileDB = new();
-            List<Item> itemList = fileDB.GetAllItems();
+             List<Item> itemList;
+
+            // FileDB fileDB = new();
+            // List<Item> itemList = fileDB.GetAllItems();
 
             SqlDb sqlDb = new(_configuration);
             itemList = sqlDb.GetAllItems();
@@ -43,12 +45,12 @@ namespace cocktails.Controllers
         {
             List<Item> itemList;
 
-            FileDB fileDB = new();
+            // FileDB fileDB = new();
             SqlDb sqlDb = new(_configuration);
 
             itemList = sqlDb.GetAllItems();
 
-            fileDB.InitialDBLoad(itemList);
+            // fileDB.InitialDBLoad(itemList);
 
             _logger.LogInformation("A FileDB Reset request was made.");
 
@@ -58,8 +60,9 @@ namespace cocktails.Controllers
         [HttpGet("id/{id:int}")]
         public List<Item> GetCocktailsById(int Id)
         {
-            FileDB fileDB = new();
-            List<Item> fileItemList = fileDB.GetItemsbyId(Id);
+            
+            // FileDB fileDB = new();
+            // List<Item> fileItemList = fileDB.GetItemsbyId(Id);
             
             SqlDb sqlDb = new(_configuration);
             List<Item> sqlItemList = sqlDb.GetItemsById(Id);
@@ -74,8 +77,8 @@ namespace cocktails.Controllers
         [HttpGet("rating/{rating:decimal}")]
         public List<Item> GetCocktailsByRating(decimal rating)
         {
-            FileDB fileDB = new();
-            List<Item> fileItemList = fileDB.GetItemsbyRating(rating);
+            // FileDB fileDB = new();
+            // List<Item> fileItemList = fileDB.GetItemsbyRating(rating);
 
             SqlDb sqlDb = new(_configuration);
             List<Item> sqlItemList = sqlDb.GetItemsByRating(rating);
@@ -89,8 +92,8 @@ namespace cocktails.Controllers
         [HttpGet("price/{price:decimal}")]
         public List<Item> GetCocktailsByPrice(decimal price)
         {
-            FileDB fileDB = new();
-            List<Item> fileItemList = fileDB.GetItemsbyPrice(price);
+            // FileDB fileDB = new();
+            // List<Item> fileItemList = fileDB.GetItemsbyPrice(price);
 
             SqlDb sqlDb = new(_configuration);
             List<Item> sqlItemList = sqlDb.GetItemsByPrice(price);
@@ -108,8 +111,8 @@ namespace cocktails.Controllers
         {
             int rowsAffected;
 
-            FileDB fileDB = new();
-            fileDB.InsertItemintoList(_item);            
+            // FileDB fileDB = new();
+            // fileDB.InsertItemintoList(_item);            
 
             SqlDb sqlDb = new(_configuration);
             rowsAffected = sqlDb.InsertItem(_item);
@@ -125,8 +128,8 @@ namespace cocktails.Controllers
         public string UpdateCocktail(Item item)
         {
             int rowsAffected;
-            FileDB fileDB = new();
-            fileDB.UpdateItemInListById(item);
+            // FileDB fileDB = new();
+            // fileDB.UpdateItemInListById(item);
 
             SqlDb sqlDb = new(_configuration);
             rowsAffected = sqlDb.UpdateItembyId(item);
@@ -144,8 +147,8 @@ namespace cocktails.Controllers
         {
             int rowsAffected;
 
-            FileDB fileDB = new();
-            fileDB.DeleteItemfromListById(id);            
+            // FileDB fileDB = new();
+            // fileDB.DeleteItemfromListById(id);            
 
             SqlDb sqlDb = new(_configuration);
             rowsAffected = sqlDb.DeleteItembyId(id);

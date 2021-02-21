@@ -9,7 +9,7 @@ namespace frontend.models
         public string Name { get; set; }
         public decimal Price { get; set; }
         public decimal Rating { get; set; }
-        public byte[] cocktailImage { get; set; }
+        public string ImagePath { get; set; }
 
         public bool Equals(Item other)
         {

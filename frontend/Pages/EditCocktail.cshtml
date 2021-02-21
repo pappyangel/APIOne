@@ -1,20 +1,9 @@
 ﻿@page
 @model frontend.Pages.EditCocktailModel
 @{
-    ViewData["Title"] = "Edit Cocktails Page";
-    //var html-src-content = "~/images/" + (Model.Employee.PhotoPath ?? "noimage.jpg");
-    //var html_src_content = "";
+    ViewData["Title"] = "Edit Cocktails Page";   
 
-    var srcContent = "";
-    
-    if (@Model.cocktailToEdit.cocktailImage != null)
-    {        
-        srcContent = "(data:image/jpg;base64,@Convert.ToBase64String(@Model.cocktailToEdit.cocktailImage)";
-    }
-    {
-        srcContent = "~/images/martini.jpg";
-    }
-    
+    var srcContent ="~/images/" + (Model.cocktailToEdit.ImagePath ?? "NoImage.jpg");    
 
 }
 
@@ -68,18 +57,14 @@
                 @*Photo property type is IFormFile, so ASP.NET Core
                     automatically creates a FileUpload control  *@
                 <input asp-for="ctImage" class="custom-file-input form-control">
-                <label class="custom-file-label">Click here to change photo</label>
+                <label class="custom-file-label">Click here to change image</label>
             </div>
         </div>
     </div>
 
     @*Display the existing employee photo*@
-    <div class="form-group row col-sm-4 offset-4">
-        @* <img class="imageThumbnail" src="~/images/martini.jpg" asp-append-version="true" /> *@
-        @* <img class="imageThumbnail" src="data:image/jpg;base64,@Convert.ToBase64String(@Model.cocktailToEdit.cocktailImage)" asp-append-version="true" /> *@
-        <img class="imageThumbnail" src="@srcContent" asp-append-version="true" />
-        
-        
+    <div class="form-group row col-sm-4 offset-4">        
+        <img class="imageThumbnail" src="@srcContent" asp-append-version="true" />        
     </div>
 
     
