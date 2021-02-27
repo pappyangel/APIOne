@@ -58,7 +58,7 @@ namespace cocktails.Controllers
 
         // cocktail/id/$int
         [HttpGet("id/{id:int}")]
-        public List<Item> GetCocktailsById(int Id)
+        public ActionResult<List<Item>> GetCocktailsById(int Id)
         {
             
             // FileDB fileDB = new();
@@ -66,6 +66,17 @@ namespace cocktails.Controllers
             
             SqlDb sqlDb = new(_configuration);
             List<Item> sqlItemList = sqlDb.GetItemsById(Id);
+
+            
+
+            if (sqlItemList.Count == 0)
+            {
+                // reply with http code 400
+                //return BadRequest($"Item not found: {Id}");
+                // reply with http code 204
+                return NoContent();
+
+            }
 
             _logger.LogInformation("Received request to return item: {@int}", Id);
 

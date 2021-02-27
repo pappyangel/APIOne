@@ -1,0 +1,18 @@
+### Get one
+GET http://127.0.0.1:5000/cocktails/id/1005
+
+### get All
+GET http://127.0.0.1:5000/Cocktails/
+
+### Insert a cocktail
+POST http://127.0.0.1:5000/Cocktails 
+
+Content-Type: application/json
+
+{    
+    "id": 1099,
+    "name": "Kentucky Mule",
+    "price": 15.25,
+    "rating": 4.2,
+    "ImagePath": ""
+}

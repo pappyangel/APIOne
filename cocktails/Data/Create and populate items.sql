@@ -36,7 +36,8 @@ set i.ImagePath = ''
 from items i
 where i.ImagePath IS NULL
 
-
+Select id, name, price, rating, coalesce(imagepath,'', imagepath) 
+from items
 
 select *
 from items

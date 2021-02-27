@@ -12,7 +12,9 @@ namespace cocktails.DB
         // private readonly ILogger<SqlDb> _logger;
         private readonly IConfiguration _configuration;
 
-        private List<Item> sqlItems = new();
+        private List<Item> sqlItems = new();        
+        private string tblName = "items";
+        private string selectClause = "Select id, name, price, rating, coalesce(imagepath,'', imagepath) ";
 
         //public SqlDb(ILogger<SqlDb> logger, IConfiguration configuration)
         public SqlDb(IConfiguration configuration)
@@ -42,7 +44,7 @@ namespace cocktails.DB
         public void ExecuteQuery(string qry)
         {
             SqlCommand command;
-            SqlDataReader dataReader;
+            SqlDataReader dataReader;            
 
             SqlConnection SQLCn = GetSQLCn();
             SQLCn.Open();
@@ -51,13 +53,26 @@ namespace cocktails.DB
 
             while (dataReader.Read())
             {
+                // Item longWay = new();
+
+                // longWay.Id = dataReader.GetInt32(0);
+                // longWay.Name = dataReader.GetString(1);
+                // longWay.Price = dataReader.GetDecimal(2);
+                // longWay.Rating = dataReader.GetDecimal(3);    
+                // if (dataReader.IsDBNull(dataReader.GetString(4)))
+                //         longWay.ImagePath = "";
+                //     else
+                //         longWay.ImagePath = dataReader.GetString(4);
+
+                // sqlItems.Add(longWay);
+                
                 sqlItems.Add(new Item()
                 {
                     Id = dataReader.GetInt32(0),
                     Name = dataReader.GetString(1),
                     Price = dataReader.GetDecimal(2),
-                    Rating = dataReader.GetDecimal(3),
-                    ImagePath = dataReader.GetString(4)
+                    Rating = dataReader.GetDecimal(3),     
+                    ImagePath = dataReader.GetString(4)                    
                 });
             }
 
@@ -69,9 +84,8 @@ namespace cocktails.DB
         }
 
         public List<Item> GetItemsById(int id)
-        {
-            string tblName = "items";
-            string qryId = $"Select * from {tblName} where Id = {id} order by Id";
+        {            
+            string qryId = selectClause + $"from {tblName} where Id = {id} order by Id";            
 
             ExecuteQuery(qryId);
 
@@ -83,7 +97,7 @@ namespace cocktails.DB
         public List<Item> GetItemsByPrice(decimal price)
         {
             string tblName = "items";
-            string qryPrice = $"Select * from {tblName} where price <= {price} order by Id";
+            string qryPrice = selectClause + $"from {tblName} where price <= {price} order by Id";            
 
             ExecuteQuery(qryPrice);
 
@@ -94,7 +108,7 @@ namespace cocktails.DB
         public List<Item> GetItemsByRating(decimal rating)
         {
             string tblName = "items";
-            string qryRating = $"Select * from {tblName} where rating >= {rating} order by Id";
+            string qryRating = selectClause + $"from {tblName} where rating >= {rating} order by Id";
 
             ExecuteQuery(qryRating);
 
@@ -106,7 +120,7 @@ namespace cocktails.DB
         {
             // define variables
             string tblName = "items";
-            string qryAllItems = $"Select * from {tblName} order by Id";
+            string qryAllItems = selectClause + $"from {tblName} order by Id";
 
             ExecuteQuery(qryAllItems);
 
