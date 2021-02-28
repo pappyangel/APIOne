@@ -14,7 +14,8 @@ namespace cocktails.DB
 
         private List<Item> sqlItems = new();        
         private string tblName = "items";
-        private string selectClause = "Select id, name, price, rating, coalesce(imagepath,'', imagepath) ";
+        //private string selectClause = "Select id, name, price, rating, coalesce(imagepath,'', imagepath) ";
+        private string selectClause = "Select id, name, price, rating, imagepath ";
 
         //public SqlDb(ILogger<SqlDb> logger, IConfiguration configuration)
         public SqlDb(IConfiguration configuration)
@@ -52,20 +53,7 @@ namespace cocktails.DB
             dataReader = command.ExecuteReader();
 
             while (dataReader.Read())
-            {
-                // Item longWay = new();
-
-                // longWay.Id = dataReader.GetInt32(0);
-                // longWay.Name = dataReader.GetString(1);
-                // longWay.Price = dataReader.GetDecimal(2);
-                // longWay.Rating = dataReader.GetDecimal(3);    
-                // if (dataReader.IsDBNull(dataReader.GetString(4)))
-                //         longWay.ImagePath = "";
-                //     else
-                //         longWay.ImagePath = dataReader.GetString(4);
-
-                // sqlItems.Add(longWay);
-                
+            {                
                 sqlItems.Add(new Item()
                 {
                     Id = dataReader.GetInt32(0),
