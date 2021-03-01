@@ -3,7 +3,21 @@
 @{
     ViewData["Title"] = "Edit Cocktails Page";   
 
-    var srcContent ="~/images/" + (Model.cocktailToEdit.ImagePath ?? "NoImage.jpg");    
+    var srcContent ="~/images/";
+    
+    @* + (Model.cocktailToEdit.ImagePath ?? "NoImage.jpg");     *@
+
+    if (Model.cocktailToEdit.ImagePath is null)
+        srcContent = srcContent + "NoImage.jpg";
+    else
+    if (Model.cocktailToEdit.ImagePath == "")
+        srcContent = srcContent + "NoImage.jpg";
+    else
+        srcContent = srcContent + Model.cocktailToEdit.ImagePath;
+
+
+
+
 
 }
 
