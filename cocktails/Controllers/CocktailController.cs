@@ -23,7 +23,7 @@ namespace cocktails.Controllers
         }
 
         [HttpGet]
-        public List<Item> GetAllCocktails()
+        public ActionResult<List<Item>> GetAllCocktails()
         {
              List<Item> itemList;
 
@@ -32,8 +32,16 @@ namespace cocktails.Controllers
 
             SqlDb sqlDb = new(_configuration);
             itemList = sqlDb.GetAllItems();
+            _logger.LogInformation("You asked for a list of all items");            
 
-            _logger.LogInformation("You asked for a list of all items");
+            if (itemList.Count == 0)
+            {             
+                //return BadRequest($"Item not found: {Id}");
+                // reply with http code 204
+                return NoContent();
+
+            }
+            // otherwise send back list
 
             return itemList;
 
@@ -43,6 +51,10 @@ namespace cocktails.Controllers
         [HttpGet("resetdb")]
         public void ResetCocktailsFileDB()
         {
+            // this method was orignally for
+            // internal maintenace when we
+            // were creating FileDB
+            
             List<Item> itemList;
 
             // FileDB fileDB = new();
@@ -65,11 +77,11 @@ namespace cocktails.Controllers
             // List<Item> fileItemList = fileDB.GetItemsbyId(Id);
             
             SqlDb sqlDb = new(_configuration);
-            List<Item> sqlItemList = sqlDb.GetItemsById(Id);
+            List<Item> itemList = sqlDb.GetItemsById(Id);
 
             
 
-            if (sqlItemList.Count == 0)
+            if (itemList.Count == 0)
             {
                 // reply with http code 400
                 //return BadRequest($"Item not found: {Id}");
@@ -80,7 +92,7 @@ namespace cocktails.Controllers
 
             _logger.LogInformation("Received request to return item: {@int}", Id);
 
-            return sqlItemList;
+            return itemList;
 
         } // end get by ID
 
@@ -92,11 +104,11 @@ namespace cocktails.Controllers
             // List<Item> fileItemList = fileDB.GetItemsbyRating(rating);
 
             SqlDb sqlDb = new(_configuration);
-            List<Item> sqlItemList = sqlDb.GetItemsByRating(rating);
+            List<Item> itemList = sqlDb.GetItemsByRating(rating);
 
             _logger.LogInformation("Received request to return item by this rating: {@decimal}", rating);
 
-            return sqlItemList;
+            return itemList;
 
         }
        
@@ -107,11 +119,11 @@ namespace cocktails.Controllers
             // List<Item> fileItemList = fileDB.GetItemsbyPrice(price);
 
             SqlDb sqlDb = new(_configuration);
-            List<Item> sqlItemList = sqlDb.GetItemsByPrice(price);
+            List<Item> itemList = sqlDb.GetItemsByPrice(price);
 
             _logger.LogInformation("Received request to return item by this rating: {@decimal}", price);
 
-            return sqlItemList;
+            return itemList;
 
         }
 

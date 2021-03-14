@@ -13,7 +13,9 @@ namespace cocktails.DB
         private readonly IConfiguration _configuration;
 
         private List<Item> sqlItems = new();        
-        private string tblName = "items";
+        private string tblName = "Items";
+        private string viewName = "ItemsVw";
+
         //private string selectClause = "Select id, name, price, rating, coalesce(imagepath,'', imagepath) ";
         private string selectClause = "Select id, name, price, rating, imagepath ";
 
@@ -73,7 +75,7 @@ namespace cocktails.DB
 
         public List<Item> GetItemsById(int id)
         {            
-            string qryId = selectClause + $"from {tblName} where Id = {id} order by Id";            
+            string qryId = selectClause + $"from {viewName} where Id = {id} order by Id";            
 
             ExecuteQuery(qryId);
 
@@ -83,9 +85,8 @@ namespace cocktails.DB
 
 
         public List<Item> GetItemsByPrice(decimal price)
-        {
-            string tblName = "items";
-            string qryPrice = selectClause + $"from {tblName} where price <= {price} order by Id";            
+        {         
+            string qryPrice = selectClause + $"from {viewName} where price <= {price} order by Id";            
 
             ExecuteQuery(qryPrice);
 
@@ -94,9 +95,8 @@ namespace cocktails.DB
         } // end get by price
 
         public List<Item> GetItemsByRating(decimal rating)
-        {
-            string tblName = "items";
-            string qryRating = selectClause + $"from {tblName} where rating >= {rating} order by Id";
+        {            
+            string qryRating = selectClause + $"from {viewName} where rating >= {rating} order by Id";
 
             ExecuteQuery(qryRating);
 
@@ -106,9 +106,8 @@ namespace cocktails.DB
 
         public List<Item> GetAllItems()
         {
-            // define variables
-            string tblName = "items";
-            string qryAllItems = selectClause + $"from {tblName} order by Id";
+            // define variables          
+            string qryAllItems = selectClause + $"from {viewName} order by Id";
 
             ExecuteQuery(qryAllItems);
 
@@ -136,8 +135,7 @@ namespace cocktails.DB
         }
         public int DeleteItembyId(int id)
         {
-            int crudResult;
-            string tblName = "items";
+            int crudResult;         
             string sql = $"Delete from {tblName} where Id = {id}";
 
             crudResult = CRUD(sql);
@@ -147,8 +145,7 @@ namespace cocktails.DB
         
         public int UpdateItembyId(Item item)
         {
-            int crudResult;
-            string tblName = "items";
+            int crudResult;            
             string sql = $"Update t Set t.name = '{item.Name}', t.price = {item.Price}, t.rating = {item.Rating}, t.ImagePath = '{item.ImagePath}'"
              + $" From {tblName} t where t.id = {item.Id}";
 
@@ -158,8 +155,7 @@ namespace cocktails.DB
         }
         public int InsertItem(Item item)
         {
-            int crudResult;
-            string tblName = "items";
+            int crudResult;            
             string sql = $"Insert into {tblName} (Name, Price ,Rating) values ('{item.Name}', {item.Price}, {item.Rating})";
 
             crudResult = CRUD(sql);
