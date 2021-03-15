@@ -6,7 +6,7 @@ create view ItemsVw as
 	from Items
 	)
 
-
+-- this will test for null data returned
 create view ItemsVw as
 (
 select [Id], [Name], [Price], [Rating], [ImagePath]
