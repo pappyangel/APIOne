@@ -1,5 +1,6 @@
 drop view ItemsVw
 
+-- this wil test for all items returned
 create view ItemsVw as
 	(
 	select [Id], [Name], [Price], [Rating], [ImagePath]
