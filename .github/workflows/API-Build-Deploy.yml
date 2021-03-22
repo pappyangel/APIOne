@@ -1,8 +1,7 @@
-name: .NET
+name: BD API
 
-on:     
+on:
   workflow_dispatch:  
-    'main/cocktail'
 
 jobs:
   build:
