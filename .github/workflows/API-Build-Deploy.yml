@@ -1,8 +1,8 @@
 name: .NET
 
-on:  
+on:     
   workflow_dispatch:  
-    [main/cocktail]
+    'main/cocktail'
 
 jobs:
   build:
