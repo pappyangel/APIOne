@@ -9,16 +9,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        path: ./cocktails
+    - uses: actions/checkout@v2    
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Restore, Build, Test, Publish  
+      run: |
+        cd cocktails
+        dotnet restore   
+        dotnet build --no-restore
+        dotnet test --no-build --verbosity normal
+        dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp 
