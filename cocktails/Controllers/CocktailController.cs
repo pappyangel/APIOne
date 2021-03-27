@@ -43,7 +43,7 @@ namespace cocktails.Controllers
         {
             List<Item> itemList;
 
-            FileDB fileDB = new();
+            //FileDB fileDB = new();
             SqlDb sqlDb = new(_configuration);
 
             itemList = sqlDb.GetAllItems();
