@@ -25,11 +25,11 @@ namespace cocktails.Controllers
         [HttpGet]
         public List<Item> GetAllCocktails()
         {
-            FileDB fileDB = new();
-            List<Item> itemList = fileDB.GetAllItems();
+            //FileDB fileDB = new();
+            //List<Item> itemList = fileDB.GetAllItems();
 
             SqlDb sqlDb = new(_configuration);
-            itemList = sqlDb.GetAllItems();
+            List<Item> itemSQLList = sqlDb.GetAllItems();
 
             _logger.LogInformation("You asked for a list of all items");
 
@@ -43,7 +43,7 @@ namespace cocktails.Controllers
         {
             List<Item> itemList;
 
-            //FileDB fileDB = new();
+            FileDB fileDB = new();
             SqlDb sqlDb = new(_configuration);
 
             itemList = sqlDb.GetAllItems();
