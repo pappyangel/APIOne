@@ -33,7 +33,7 @@ namespace cocktails.Controllers
 
             _logger.LogInformation("You asked for a list of all items");
 
-            return itemList;
+            return itemSQLList;
 
         }
 
