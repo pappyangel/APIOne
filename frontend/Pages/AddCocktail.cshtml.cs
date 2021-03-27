@@ -26,7 +26,7 @@ namespace frontend.Pages
         // public IActionResult OnGet(string cocktailToPass)
         public void OnGet()
         {            
-            
+              
         }
 
         public async Task<IActionResult> OnPost(Item cocktailToAdd)

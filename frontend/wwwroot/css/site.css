@@ -12,6 +12,11 @@ a {
   color: #0366d6;
 }
 
+.imageThumbnail {
+  height: 200px;
+  width: auto;  
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;

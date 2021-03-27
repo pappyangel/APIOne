@@ -14,6 +14,14 @@ CREATE TABLE [dbo].[Items]
 );
 GO
 
+
+-- alter table  [dbo].[Items] -- Add a new column 'NewColumnName' to table 'TableName' in schema 'SchemaName'
+
+ALTER TABLE [dbo].[Items]
+    ADD ImagePath varchar(255) NULL 
+GO
+
+
 update items
 set name = 'boo', price = 25.55, rating = 3.2
 where id = 1006
@@ -23,6 +31,13 @@ set i.name = 'hoo', i.price = 25.55, i.rating = 3.2
 from items i
 where i.id = 1006
 
+update i 
+set i.ImagePath = ''
+from items i
+where i.ImagePath IS NULL
+
+Select id, name, price, rating, coalesce(imagepath,'', imagepath) 
+from items
 
 select *
 from items

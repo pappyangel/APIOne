@@ -31,9 +31,12 @@ namespace frontend.Pages
         public async Task<IActionResult> OnGet()
         {               
             //_cocktailRepository.
-            pageCocktailList = await _cocktailRepository.GetItemsAsync();            
+            pageCocktailList = await _cocktailRepository.GetItemsAsync();   
 
-            return Page();
+            if (pageCocktailList == null)         
+                  return Redirect("/NoItems");
+            else
+                return Page();
 
         }
 

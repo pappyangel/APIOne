@@ -1,5 +1,6 @@
 using System;
 
+
 namespace frontend.models
 {
     public class Item : IComparable<Item>, IEquatable<Item>
@@ -8,8 +9,9 @@ namespace frontend.models
         public string Name { get; set; }
         public decimal Price { get; set; }
         public decimal Rating { get; set; }
+        public string ImagePath { get; set; }
 
-         public bool Equals(Item other)
+        public bool Equals(Item other)
         {
             if (other == null) return false;
             return (this.Id.Equals(other.Id));
@@ -22,7 +24,7 @@ namespace frontend.models
 
             else
                 return this.Id.CompareTo(compareItem.Id);
-        }       
+        }
 
         public override string ToString()
         {
