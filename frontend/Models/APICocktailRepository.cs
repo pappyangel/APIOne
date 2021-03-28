@@ -6,27 +6,30 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace frontend.models
 {
 
     public class APICocktailRepository : ICocktailRepository
     {
+        private readonly IConfiguration _configuration;
         private List<Item> cocktailList { get; set; }
         private HttpClient APIclient = new HttpClient();
 
-        public APICocktailRepository()
-        {
-            int dog = 0;
-            dog++;
-            //GetItemsAsync(); 
-        }
+        private string apiUrl;
 
+        public APICocktailRepository(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            apiUrl = _configuration["APIProductionUrl"];
+        }
+        
         public async Task<List<Item>> GetItemsAsync()
         {
 
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:5000/cocktails");
-            var response1 = await APIclient.SendAsync(request);           
+            var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
+            var response1 = await APIclient.SendAsync(request);
 
 
             if (response1.StatusCode == System.Net.HttpStatusCode.OK)
@@ -39,7 +42,7 @@ namespace frontend.models
                 //use case where API call was good, but there was no data
                 //do something here to have screen display no results, please add some!
 
-            }            
+            }
 
             return cocktailList;
 
@@ -56,10 +59,10 @@ namespace frontend.models
         {
             var jsonItem = JsonSerializer.Serialize(updatedItem);
             var httpContent = new StringContent(jsonItem, Encoding.UTF8, "application/json");
-            var url = "http://localhost:5000/cocktails";
-            var response = await APIclient.PutAsync(url, httpContent);
 
-            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");
+            var response = await APIclient.PutAsync(apiUrl, httpContent);
+
+            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>(apiUrl);
 
             return cocktailList;
         }
@@ -68,23 +71,23 @@ namespace frontend.models
         {
             var jsonItem = JsonSerializer.Serialize(cocktailToAdd);
             var httpContent = new StringContent(jsonItem, Encoding.UTF8, "application/json");
-            var url = "http://localhost:5000/cocktails";
-            var response = await APIclient.PostAsync(url, httpContent);
+
+            var response = await APIclient.PostAsync(apiUrl, httpContent);
 
 
-            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");
+            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>(apiUrl);
 
             return cocktailList;
         }
 
         public async Task<List<Item>> DeleteItemAsync(int cocktailIdToDelete)
         {
-            var url = "http://localhost:5000/cocktails";
-            var deleteUrl = url + "/id/" + cocktailIdToDelete;
+
+            var deleteUrl = apiUrl + "/id/" + cocktailIdToDelete;
             var response = await APIclient.DeleteAsync(deleteUrl);
 
 
-            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>("http://localhost:5000/cocktails");
+            cocktailList = await APIclient.GetFromJsonAsync<List<Item>>(apiUrl);
 
             return cocktailList;
 
