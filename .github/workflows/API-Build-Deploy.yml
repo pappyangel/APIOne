@@ -3,7 +3,10 @@ name: BD API
 on:
   pull_request:
     branches: main
+    paths:
+    - 'cocktails/**'
     types: [closed]
+  
   workflow_dispatch:  
 
 jobs:
