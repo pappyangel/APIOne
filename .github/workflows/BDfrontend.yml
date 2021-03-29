@@ -3,6 +3,7 @@ name: BD FrontEnd
 on:
   pull_request:
     branches: main
+    types: [closed]
     
   workflow_dispatch:  
 
