@@ -1,11 +1,17 @@
 name: BD FrontEnd
 
-on:
-  pull_request:
+on:    
+  push:
     branches: main
     paths:
     - 'frontend/**'
-    types: [closed]
+
+#   pull_request:    
+#     branches: main
+#     paths:
+#     - 'frontend/**'
+#     types: [closed]
+    
     
   workflow_dispatch:  
 
