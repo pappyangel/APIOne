@@ -41,7 +41,7 @@ namespace cocktails.Controllers
                 return NoContent();
 
             }
-            // otherwise send back list
+            // otherwise send back list -- best practice
 
             return itemList;
 
