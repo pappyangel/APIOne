@@ -1,14 +1,19 @@
 {
     "name": "MSFTJim Codespace Defaults",
     "extensions": [
-        "eamodio.gitlens",
-        "github.vscode-pull-request-github",
-        "mhutchie.git-graph",
-        "ms-dotnettools.csharp",
-        "ms-vscode.azure-account",
-        "humao.rest-client",
-        "ms-vsliveshare.vsliveshare",
-    ],
+		"eamodio.gitlens",
+		"github.vscode-pull-request-github",
+		"mhutchie.git-graph",
+		"ms-dotnettools.csharp",
+		"ms-vscode.azure-account",
+		"humao.rest-client",
+		"ms-vsliveshare.vsliveshare",
+		"ms-azuretools.vscode-azureappservice",
+		"ms-azuretools.vscode-azureresourcegroups",
+		"ms-mssql.mssql",
+		"alexey-strakh.stackoverflow-search",
+		"tonybaloney.vscode-pets"
+	],
     "containerEnv": {
         "DOGVAR": "Cosmo"
     }
