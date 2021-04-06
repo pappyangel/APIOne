@@ -1,4 +1,4 @@
-name: BD FrontEnd
+name: BPD FrontEnd
 
 on:    
   push:
@@ -16,7 +16,7 @@ on:
   workflow_dispatch:  
 
 jobs:
-  build:
+  Build-Publish-Deploy:
 
     runs-on: ubuntu-latest
 
