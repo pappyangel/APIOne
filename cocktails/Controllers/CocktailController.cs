@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using cocktails.DB;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace cocktails.Controllers
 {
@@ -23,7 +24,7 @@ namespace cocktails.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Item>> GetAllCocktails()
+        public async Task<ActionResult<List<Item>>> GetAllCocktails()
         {
              List<Item> itemList;
 
@@ -31,7 +32,7 @@ namespace cocktails.Controllers
             // List<Item> itemList = fileDB.GetAllItems();
 
             SqlDb sqlDb = new(_configuration);
-            itemList = sqlDb.GetAllItems();
+            itemList = await sqlDb.GetAllItems();
             _logger.LogInformation("You asked for a list of all items");            
 
             if (itemList.Count == 0)
@@ -55,14 +56,14 @@ namespace cocktails.Controllers
             // internal maintenace when we
             // were creating FileDB
             
-            List<Item> itemList;
+            // List<Item> itemList;
 
-            // FileDB fileDB = new();
-            SqlDb sqlDb = new(_configuration);
+            // // FileDB fileDB = new();
+            // SqlDb sqlDb = new(_configuration);
 
-            itemList = sqlDb.GetAllItems();
+            // itemList = sqlDb.GetAllItems();
 
-            // fileDB.InitialDBLoad(itemList);
+            // // fileDB.InitialDBLoad(itemList);
 
             _logger.LogInformation("A FileDB Reset request was made.");
 

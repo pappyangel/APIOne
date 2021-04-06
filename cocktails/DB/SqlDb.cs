@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.Json;
+using System.Threading.Tasks;
 using cocktails.models;
 using Microsoft.Extensions.Configuration;
 
@@ -31,16 +32,16 @@ namespace cocktails.DB
         {
             var builder = new SqlConnectionStringBuilder(
                 _configuration["ConnectionStrings:defaultConnection"]);
-            // _configuration["ConnectionStrings:pluralConnection"]);
+            
 
-            //builder.Password = _configuration.GetValue<string>("plural-sqlPWD");
+            
             var keyVaultSecretLookup = _configuration["AzureKeyVaultSecret:defaultSecret"];
             builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
 
 
-            SqlConnection pluralCn = new SqlConnection(builder.ConnectionString);
+            SqlConnection sqlDBCn = new SqlConnection(builder.ConnectionString);
             //pluralCn.Open();
-            return pluralCn;
+            return sqlDBCn;
 
         }
 
@@ -52,7 +53,34 @@ namespace cocktails.DB
             SqlConnection SQLCn = GetSQLCn();
             SQLCn.Open();
             command = new SqlCommand(qry, SQLCn);
-            dataReader = command.ExecuteReader();
+            dataReader =  command.ExecuteReader();
+
+            while (dataReader.Read())
+            {                
+                sqlItems.Add(new Item()
+                {
+                    Id = dataReader.GetInt32(0),
+                    Name = dataReader.GetString(1),
+                    Price = dataReader.GetDecimal(2),
+                    Rating = dataReader.GetDecimal(3),     
+                    ImagePath = dataReader.GetString(4)                    
+                });
+            }
+            
+            // Tim beleives these are superfluous
+            dataReader.Close();
+            command.Dispose();
+            SQLCn.Close();
+        }
+ public async Task<int> ExecuteQueryAsync(string qry)
+        {
+            SqlCommand command;
+            SqlDataReader dataReader;            
+
+            SqlConnection SQLCn = GetSQLCn();
+            await SQLCn.OpenAsync();
+            command = new SqlCommand(qry, SQLCn);
+            dataReader =  await command.ExecuteReaderAsync();
 
             while (dataReader.Read())
             {                
@@ -71,8 +99,9 @@ namespace cocktails.DB
             command.Dispose();
             SQLCn.Close();
 
-        }
+            return 1;
 
+        }
         public List<Item> GetItemsById(int id)
         {            
             string qryId = selectClause + $"from {viewName} where Id = {id} order by Id";            
@@ -104,12 +133,12 @@ namespace cocktails.DB
 
         } // end get by rating
 
-        public List<Item> GetAllItems()
+        public async Task<List<Item>> GetAllItems()
         {
             // define variables          
             string qryAllItems = selectClause + $"from {viewName} order by Id";
 
-            ExecuteQuery(qryAllItems);
+            await ExecuteQueryAsync(qryAllItems);
 
             return sqlItems;
 
