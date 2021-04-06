@@ -1,4 +1,4 @@
-name: BD API
+name: BPD API App
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
   workflow_dispatch:  
 
 jobs:
-  BuildandDeploy:
+  Build-Publish-Deploy:
     runs-on: ubuntu-latest
 
     steps:
