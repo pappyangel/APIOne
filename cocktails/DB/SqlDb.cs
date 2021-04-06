@@ -33,14 +33,11 @@ namespace cocktails.DB
             var builder = new SqlConnectionStringBuilder(
                 _configuration["ConnectionStrings:defaultConnection"]);
             
-
-            
             var keyVaultSecretLookup = _configuration["AzureKeyVaultSecret:defaultSecret"];
             builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
 
-
             SqlConnection sqlDBCn = new SqlConnection(builder.ConnectionString);
-            //pluralCn.Open();
+            
             return sqlDBCn;
 
         }
@@ -74,12 +71,15 @@ namespace cocktails.DB
         }
  public async Task<int> ExecuteQueryAsync(string qry)
         {
+            int queryReturnCode = 1;
             SqlCommand command;
             SqlDataReader dataReader;            
 
             SqlConnection SQLCn = GetSQLCn();
+            // check for valid Open and set return code
             await SQLCn.OpenAsync();
             command = new SqlCommand(qry, SQLCn);
+            // check for valid Command and set return code
             dataReader =  await command.ExecuteReaderAsync();
 
             while (dataReader.Read())
@@ -99,35 +99,35 @@ namespace cocktails.DB
             command.Dispose();
             SQLCn.Close();
 
-            return 1;
+            return queryReturnCode;
 
         }
-        public List<Item> GetItemsById(int id)
+        public async Task<List<Item>> GetItemsById(int id)
         {            
             string qryId = selectClause + $"from {viewName} where Id = {id} order by Id";            
 
-            ExecuteQuery(qryId);
+            await ExecuteQueryAsync(qryId);
 
             return sqlItems;
 
-        } // end get by price
+        } // end get by Id
 
 
-        public List<Item> GetItemsByPrice(decimal price)
+        public async Task<List<Item>> GetItemsByPrice(decimal price)
         {         
             string qryPrice = selectClause + $"from {viewName} where price <= {price} order by Id";            
 
-            ExecuteQuery(qryPrice);
+            await ExecuteQueryAsync(qryPrice);
 
             return sqlItems;
 
         } // end get by price
 
-        public List<Item> GetItemsByRating(decimal rating)
+        public async Task<List<Item>> GetItemsByRating(decimal rating)
         {            
             string qryRating = selectClause + $"from {viewName} where rating >= {rating} order by Id";
 
-            ExecuteQuery(qryRating);
+            await ExecuteQueryAsync(qryRating);
 
             return sqlItems;
 

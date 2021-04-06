@@ -71,14 +71,14 @@ namespace cocktails.Controllers
 
         // cocktail/id/$int
         [HttpGet("id/{id:int}")]
-        public ActionResult<List<Item>> GetCocktailsById(int Id)
+        public async Task<ActionResult<List<Item>>> GetCocktailsById(int Id)
         {
             
             // FileDB fileDB = new();
             // List<Item> fileItemList = fileDB.GetItemsbyId(Id);
             
             SqlDb sqlDb = new(_configuration);
-            List<Item> itemList = sqlDb.GetItemsById(Id);
+            List<Item> itemList = await sqlDb.GetItemsById(Id);
 
             
 
@@ -99,13 +99,13 @@ namespace cocktails.Controllers
 
         
         [HttpGet("rating/{rating:decimal}")]
-        public List<Item> GetCocktailsByRating(decimal rating)
+        public async Task<ActionResult<List<Item>>> GetCocktailsByRating(decimal rating)
         {
             // FileDB fileDB = new();
             // List<Item> fileItemList = fileDB.GetItemsbyRating(rating);
 
             SqlDb sqlDb = new(_configuration);
-            List<Item> itemList = sqlDb.GetItemsByRating(rating);
+            List<Item> itemList = await sqlDb.GetItemsByRating(rating);
 
             _logger.LogInformation("Received request to return item by this rating: {@decimal}", rating);
 
@@ -114,15 +114,15 @@ namespace cocktails.Controllers
         }
        
         [HttpGet("price/{price:decimal}")]
-        public List<Item> GetCocktailsByPrice(decimal price)
+        public async Task<ActionResult<List<Item>>> GetCocktailsByPrice(decimal price)
         {
             // FileDB fileDB = new();
             // List<Item> fileItemList = fileDB.GetItemsbyPrice(price);
 
             SqlDb sqlDb = new(_configuration);
-            List<Item> itemList = sqlDb.GetItemsByPrice(price);
+            List<Item> itemList = await sqlDb.GetItemsByPrice(price);
 
-            _logger.LogInformation("Received request to return item by this rating: {@decimal}", price);
+            _logger.LogInformation("Received request to return item by this price or lower: {@decimal}", price);
 
             return itemList;
 
