@@ -13,7 +13,7 @@ namespace cocktails.DB
         // private readonly ILogger<SqlDb> _logger;
         private readonly IConfiguration _configuration;
 
-        private List<Item> sqlItems = new();        
+        private List<Item> sqlItems = new();
         private string tblName = "Items";
         private string viewName = "ItemsVw";
 
@@ -32,65 +32,64 @@ namespace cocktails.DB
         {
             var builder = new SqlConnectionStringBuilder(
                 _configuration["ConnectionStrings:defaultConnection"]);
-            
+
             var keyVaultSecretLookup = _configuration["AzureKeyVaultSecret:defaultSecret"];
             builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
 
             SqlConnection sqlDBCn = new SqlConnection(builder.ConnectionString);
-            
-            return sqlDBCn;
 
+            return sqlDBCn;
         }
 
         public void ExecuteQuery(string qry)
         {
             SqlCommand command;
-            SqlDataReader dataReader;            
+            SqlDataReader dataReader;
 
             SqlConnection SQLCn = GetSQLCn();
             SQLCn.Open();
             command = new SqlCommand(qry, SQLCn);
-            dataReader =  command.ExecuteReader();
+            dataReader = command.ExecuteReader();
 
             while (dataReader.Read())
-            {                
+            {
                 sqlItems.Add(new Item()
                 {
                     Id = dataReader.GetInt32(0),
                     Name = dataReader.GetString(1),
                     Price = dataReader.GetDecimal(2),
-                    Rating = dataReader.GetDecimal(3),     
-                    ImagePath = dataReader.GetString(4)                    
+                    Rating = dataReader.GetDecimal(3),
+                    ImagePath = dataReader.GetString(4)
                 });
             }
-            
+
             // Tim beleives these are superfluous
             dataReader.Close();
             command.Dispose();
             SQLCn.Close();
         }
- public async Task<int> ExecuteQueryAsync(string qry)
+        public async Task<int> ExecuteQueryAsync(string qry)
         {
             int queryReturnCode = 1;
             SqlCommand command;
-            SqlDataReader dataReader;            
+            SqlDataReader dataReader;
 
             SqlConnection SQLCn = GetSQLCn();
             // check for valid Open and set return code
             await SQLCn.OpenAsync();
             command = new SqlCommand(qry, SQLCn);
             // check for valid Command and set return code
-            dataReader =  await command.ExecuteReaderAsync();
+            dataReader = await command.ExecuteReaderAsync();
 
             while (dataReader.Read())
-            {                
+            {
                 sqlItems.Add(new Item()
                 {
                     Id = dataReader.GetInt32(0),
                     Name = dataReader.GetString(1),
                     Price = dataReader.GetDecimal(2),
-                    Rating = dataReader.GetDecimal(3),     
-                    ImagePath = dataReader.GetString(4)                    
+                    Rating = dataReader.GetDecimal(3),
+                    ImagePath = dataReader.GetString(4)
                 });
             }
 
@@ -103,8 +102,8 @@ namespace cocktails.DB
 
         }
         public async Task<List<Item>> GetItemsById(int id)
-        {            
-            string qryId = selectClause + $"from {viewName} where Id = {id} order by Id";            
+        {
+            string qryId = selectClause + $"from {viewName} where Id = {id} order by Id";
 
             await ExecuteQueryAsync(qryId);
 
@@ -114,8 +113,8 @@ namespace cocktails.DB
 
 
         public async Task<List<Item>> GetItemsByPrice(decimal price)
-        {         
-            string qryPrice = selectClause + $"from {viewName} where price <= {price} order by Id";            
+        {
+            string qryPrice = selectClause + $"from {viewName} where price <= {price} order by Id";
 
             await ExecuteQueryAsync(qryPrice);
 
@@ -124,7 +123,7 @@ namespace cocktails.DB
         } // end get by price
 
         public async Task<List<Item>> GetItemsByRating(decimal rating)
-        {            
+        {
             string qryRating = selectClause + $"from {viewName} where rating >= {rating} order by Id";
 
             await ExecuteQueryAsync(qryRating);
@@ -143,7 +142,6 @@ namespace cocktails.DB
             return sqlItems;
 
         }
-
         private int CRUD(string sqlStatetment)
         {
             SqlCommand command;
@@ -162,32 +160,50 @@ namespace cocktails.DB
             return rowsAffected;
 
         }
-        public int DeleteItembyId(int id)
+        private async Task<int> CRUDAsync(string sqlStatetment)
         {
-            int crudResult;         
+            SqlCommand command;
+            int rowsAffected;
+
+            SqlConnection SQLCn = GetSQLCn();
+            await SQLCn.OpenAsync();
+
+            command = new SqlCommand(sqlStatetment, SQLCn);
+            command.CommandType = CommandType.Text;
+            rowsAffected = await command.ExecuteNonQueryAsync();
+
+            command.Dispose();
+            SQLCn.Close();
+
+            return rowsAffected;
+
+        }
+        public async Task<int> DeleteItembyId(int id)
+        {
+            int crudResult;
             string sql = $"Delete from {tblName} where Id = {id}";
 
-            crudResult = CRUD(sql);
+            crudResult = await CRUDAsync(sql);
 
             return crudResult;
         }
-        
-        public int UpdateItembyId(Item item)
+
+        public async Task<int> UpdateItembyId(Item item)
         {
-            int crudResult;            
+            int crudResult;
             string sql = $"Update t Set t.name = '{item.Name}', t.price = {item.Price}, t.rating = {item.Rating}, t.ImagePath = '{item.ImagePath}'"
              + $" From {tblName} t where t.id = {item.Id}";
 
-            crudResult = CRUD(sql);
+            crudResult = await CRUDAsync(sql);
 
             return crudResult;
         }
-        public int InsertItem(Item item)
+        public async Task<int> InsertItem(Item item)
         {
-            int crudResult;            
+            int crudResult;
             string sql = $"Insert into {tblName} (Name, Price ,Rating) values ('{item.Name}', {item.Price}, {item.Rating})";
 
-            crudResult = CRUD(sql);
+            crudResult = await CRUDAsync(sql);
 
             return crudResult;
         }

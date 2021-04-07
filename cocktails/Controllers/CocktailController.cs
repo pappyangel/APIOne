@@ -131,7 +131,7 @@ namespace cocktails.Controllers
 
         // cocktail/Post  -- insert new Item
         [HttpPost]
-        public string AddCocktail(Item _item)
+        public async Task<string> AddCocktail(Item _item)
         {
             int rowsAffected;
 
@@ -139,7 +139,7 @@ namespace cocktails.Controllers
             // fileDB.InsertItemintoList(_item);            
 
             SqlDb sqlDb = new(_configuration);
-            rowsAffected = sqlDb.InsertItem(_item);
+            rowsAffected = await sqlDb.InsertItem(_item);
 
             _logger.LogInformation("Received request to add this item: {@Item}", _item);
 
@@ -149,14 +149,14 @@ namespace cocktails.Controllers
 
         // cocktail/Put  -- update  Item by id
         [HttpPut]
-        public string UpdateCocktail(Item item)
+        public async Task<string> UpdateCocktail(Item item)
         {
             int rowsAffected;
             // FileDB fileDB = new();
             // fileDB.UpdateItemInListById(item);
 
             SqlDb sqlDb = new(_configuration);
-            rowsAffected = sqlDb.UpdateItembyId(item);
+            rowsAffected = await sqlDb.UpdateItembyId(item);
 
             _logger.LogInformation("Received request to update this item: {@Item}", item);
 
@@ -167,7 +167,7 @@ namespace cocktails.Controllers
         // cocktail/Post  -- Delete Item
         [HttpDelete("id/{id:int}")]
         //[HttpDelete]
-        public string DeleteCocktail(int id)
+        public async Task<string> DeleteCocktail(int id)
         {
             int rowsAffected;
 
@@ -175,7 +175,7 @@ namespace cocktails.Controllers
             // fileDB.DeleteItemfromListById(id);            
 
             SqlDb sqlDb = new(_configuration);
-            rowsAffected = sqlDb.DeleteItembyId(id);
+            rowsAffected = await sqlDb.DeleteItembyId(id);
 
             _logger.LogInformation("Received request to delete by this item id: {@int}", id);
 
