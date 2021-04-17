@@ -2,11 +2,11 @@
 
 This is a repo with multiple apps and solutions.  it is a showcase for many app dev techniques.
 
-## API App
+### API App
 
-## Razor Web App
+### Razor Web App
 
-## Codespaces
+### Codespaces
 
-## GitHub Actions
+### GitHub Actions
 
