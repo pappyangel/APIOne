@@ -1,9 +1,12 @@
 # APIOne
 
-Attempt to push to main
+This is a repo with multiple apps and solutions.  it is a showcase for many app dev techniques.
 
-Second attempt to push to main.
+# API App
 
-Three times a charm!
+# Razor Web App
 
-test push to charm
+# Codespaces
+
+# GitHub Actions
+
