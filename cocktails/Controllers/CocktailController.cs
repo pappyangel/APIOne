@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using cocktails.DB;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace cocktails.Controllers
 {
@@ -23,7 +24,7 @@ namespace cocktails.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Item>> GetAllCocktails()
+        public async Task<ActionResult<List<Item>>> GetAllCocktails()
         {
              List<Item> itemList;
 
@@ -31,7 +32,7 @@ namespace cocktails.Controllers
             // List<Item> itemList = fileDB.GetAllItems();
 
             SqlDb sqlDb = new(_configuration);
-            itemList = sqlDb.GetAllItems();
+            itemList = await sqlDb.GetAllItems();
             _logger.LogInformation("You asked for a list of all items");            
 
             if (itemList.Count == 0)
@@ -55,14 +56,14 @@ namespace cocktails.Controllers
             // internal maintenace when we
             // were creating FileDB
             
-            List<Item> itemList;
+            // List<Item> itemList;
 
-            // FileDB fileDB = new();
-            SqlDb sqlDb = new(_configuration);
+            // // FileDB fileDB = new();
+            // SqlDb sqlDb = new(_configuration);
 
-            itemList = sqlDb.GetAllItems();
+            // itemList = sqlDb.GetAllItems();
 
-            // fileDB.InitialDBLoad(itemList);
+            // // fileDB.InitialDBLoad(itemList);
 
             _logger.LogInformation("A FileDB Reset request was made.");
 
@@ -70,14 +71,14 @@ namespace cocktails.Controllers
 
         // cocktail/id/$int
         [HttpGet("id/{id:int}")]
-        public ActionResult<List<Item>> GetCocktailsById(int Id)
+        public async Task<ActionResult<List<Item>>> GetCocktailsById(int Id)
         {
             
             // FileDB fileDB = new();
             // List<Item> fileItemList = fileDB.GetItemsbyId(Id);
             
             SqlDb sqlDb = new(_configuration);
-            List<Item> itemList = sqlDb.GetItemsById(Id);
+            List<Item> itemList = await sqlDb.GetItemsById(Id);
 
             
 
@@ -98,13 +99,13 @@ namespace cocktails.Controllers
 
         
         [HttpGet("rating/{rating:decimal}")]
-        public List<Item> GetCocktailsByRating(decimal rating)
+        public async Task<ActionResult<List<Item>>> GetCocktailsByRating(decimal rating)
         {
             // FileDB fileDB = new();
             // List<Item> fileItemList = fileDB.GetItemsbyRating(rating);
 
             SqlDb sqlDb = new(_configuration);
-            List<Item> itemList = sqlDb.GetItemsByRating(rating);
+            List<Item> itemList = await sqlDb.GetItemsByRating(rating);
 
             _logger.LogInformation("Received request to return item by this rating: {@decimal}", rating);
 
@@ -113,15 +114,15 @@ namespace cocktails.Controllers
         }
        
         [HttpGet("price/{price:decimal}")]
-        public List<Item> GetCocktailsByPrice(decimal price)
+        public async Task<ActionResult<List<Item>>> GetCocktailsByPrice(decimal price)
         {
             // FileDB fileDB = new();
             // List<Item> fileItemList = fileDB.GetItemsbyPrice(price);
 
             SqlDb sqlDb = new(_configuration);
-            List<Item> itemList = sqlDb.GetItemsByPrice(price);
+            List<Item> itemList = await sqlDb.GetItemsByPrice(price);
 
-            _logger.LogInformation("Received request to return item by this rating: {@decimal}", price);
+            _logger.LogInformation("Received request to return item by this price or lower: {@decimal}", price);
 
             return itemList;
 
@@ -130,7 +131,7 @@ namespace cocktails.Controllers
 
         // cocktail/Post  -- insert new Item
         [HttpPost]
-        public string AddCocktail(Item _item)
+        public async Task<string> AddCocktail(Item _item)
         {
             int rowsAffected;
 
@@ -138,7 +139,7 @@ namespace cocktails.Controllers
             // fileDB.InsertItemintoList(_item);            
 
             SqlDb sqlDb = new(_configuration);
-            rowsAffected = sqlDb.InsertItem(_item);
+            rowsAffected = await sqlDb.InsertItem(_item);
 
             _logger.LogInformation("Received request to add this item: {@Item}", _item);
 
@@ -148,14 +149,14 @@ namespace cocktails.Controllers
 
         // cocktail/Put  -- update  Item by id
         [HttpPut]
-        public string UpdateCocktail(Item item)
+        public async Task<string> UpdateCocktail(Item item)
         {
             int rowsAffected;
             // FileDB fileDB = new();
             // fileDB.UpdateItemInListById(item);
 
             SqlDb sqlDb = new(_configuration);
-            rowsAffected = sqlDb.UpdateItembyId(item);
+            rowsAffected = await sqlDb.UpdateItembyId(item);
 
             _logger.LogInformation("Received request to update this item: {@Item}", item);
 
@@ -166,7 +167,7 @@ namespace cocktails.Controllers
         // cocktail/Post  -- Delete Item
         [HttpDelete("id/{id:int}")]
         //[HttpDelete]
-        public string DeleteCocktail(int id)
+        public async Task<string> DeleteCocktail(int id)
         {
             int rowsAffected;
 
@@ -174,7 +175,7 @@ namespace cocktails.Controllers
             // fileDB.DeleteItemfromListById(id);            
 
             SqlDb sqlDb = new(_configuration);
-            rowsAffected = sqlDb.DeleteItembyId(id);
+            rowsAffected = await sqlDb.DeleteItembyId(id);
 
             _logger.LogInformation("Received request to delete by this item id: {@int}", id);
 

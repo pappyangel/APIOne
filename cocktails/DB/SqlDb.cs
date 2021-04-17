@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.Json;
+using System.Threading.Tasks;
 using cocktails.models;
 using Microsoft.Extensions.Configuration;
 
@@ -12,7 +13,7 @@ namespace cocktails.DB
         // private readonly ILogger<SqlDb> _logger;
         private readonly IConfiguration _configuration;
 
-        private List<Item> sqlItems = new();        
+        private List<Item> sqlItems = new();
         private string tblName = "Items";
         private string viewName = "ItemsVw";
 
@@ -31,23 +32,19 @@ namespace cocktails.DB
         {
             var builder = new SqlConnectionStringBuilder(
                 _configuration["ConnectionStrings:defaultConnection"]);
-            // _configuration["ConnectionStrings:pluralConnection"]);
 
-            //builder.Password = _configuration.GetValue<string>("plural-sqlPWD");
             var keyVaultSecretLookup = _configuration["AzureKeyVaultSecret:defaultSecret"];
             builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
 
+            SqlConnection sqlDBCn = new SqlConnection(builder.ConnectionString);
 
-            SqlConnection pluralCn = new SqlConnection(builder.ConnectionString);
-            //pluralCn.Open();
-            return pluralCn;
-
+            return sqlDBCn;
         }
 
         public void ExecuteQuery(string qry)
         {
             SqlCommand command;
-            SqlDataReader dataReader;            
+            SqlDataReader dataReader;
 
             SqlConnection SQLCn = GetSQLCn();
             SQLCn.Open();
@@ -55,14 +52,44 @@ namespace cocktails.DB
             dataReader = command.ExecuteReader();
 
             while (dataReader.Read())
-            {                
+            {
                 sqlItems.Add(new Item()
                 {
                     Id = dataReader.GetInt32(0),
                     Name = dataReader.GetString(1),
                     Price = dataReader.GetDecimal(2),
-                    Rating = dataReader.GetDecimal(3),     
-                    ImagePath = dataReader.GetString(4)                    
+                    Rating = dataReader.GetDecimal(3),
+                    ImagePath = dataReader.GetString(4)
+                });
+            }
+
+            // Tim beleives these are superfluous
+            dataReader.Close();
+            command.Dispose();
+            SQLCn.Close();
+        }
+        public async Task<int> ExecuteQueryAsync(string qry)
+        {
+            int queryReturnCode = 1;
+            SqlCommand command;
+            SqlDataReader dataReader;
+
+            SqlConnection SQLCn = GetSQLCn();
+            // check for valid Open and set return code
+            await SQLCn.OpenAsync();
+            command = new SqlCommand(qry, SQLCn);
+            // check for valid Command and set return code
+            dataReader = await command.ExecuteReaderAsync();
+
+            while (dataReader.Read())
+            {
+                sqlItems.Add(new Item()
+                {
+                    Id = dataReader.GetInt32(0),
+                    Name = dataReader.GetString(1),
+                    Price = dataReader.GetDecimal(2),
+                    Rating = dataReader.GetDecimal(3),
+                    ImagePath = dataReader.GetString(4)
                 });
             }
 
@@ -71,50 +98,50 @@ namespace cocktails.DB
             command.Dispose();
             SQLCn.Close();
 
+            return queryReturnCode;
+
         }
+        public async Task<List<Item>> GetItemsById(int id)
+        {
+            string qryId = selectClause + $"from {viewName} where Id = {id} order by Id";
 
-        public List<Item> GetItemsById(int id)
-        {            
-            string qryId = selectClause + $"from {viewName} where Id = {id} order by Id";            
+            await ExecuteQueryAsync(qryId);
 
-            ExecuteQuery(qryId);
+            return sqlItems;
+
+        } // end get by Id
+
+
+        public async Task<List<Item>> GetItemsByPrice(decimal price)
+        {
+            string qryPrice = selectClause + $"from {viewName} where price <= {price} order by Id";
+
+            await ExecuteQueryAsync(qryPrice);
 
             return sqlItems;
 
         } // end get by price
 
-
-        public List<Item> GetItemsByPrice(decimal price)
-        {         
-            string qryPrice = selectClause + $"from {viewName} where price <= {price} order by Id";            
-
-            ExecuteQuery(qryPrice);
-
-            return sqlItems;
-
-        } // end get by price
-
-        public List<Item> GetItemsByRating(decimal rating)
-        {            
+        public async Task<List<Item>> GetItemsByRating(decimal rating)
+        {
             string qryRating = selectClause + $"from {viewName} where rating >= {rating} order by Id";
 
-            ExecuteQuery(qryRating);
+            await ExecuteQueryAsync(qryRating);
 
             return sqlItems;
 
         } // end get by rating
 
-        public List<Item> GetAllItems()
+        public async Task<List<Item>> GetAllItems()
         {
             // define variables          
             string qryAllItems = selectClause + $"from {viewName} order by Id";
 
-            ExecuteQuery(qryAllItems);
+            await ExecuteQueryAsync(qryAllItems);
 
             return sqlItems;
 
         }
-
         private int CRUD(string sqlStatetment)
         {
             SqlCommand command;
@@ -133,32 +160,50 @@ namespace cocktails.DB
             return rowsAffected;
 
         }
-        public int DeleteItembyId(int id)
+        private async Task<int> CRUDAsync(string sqlStatetment)
         {
-            int crudResult;         
+            SqlCommand command;
+            int rowsAffected;
+
+            SqlConnection SQLCn = GetSQLCn();
+            await SQLCn.OpenAsync();
+
+            command = new SqlCommand(sqlStatetment, SQLCn);
+            command.CommandType = CommandType.Text;
+            rowsAffected = await command.ExecuteNonQueryAsync();
+
+            command.Dispose();
+            SQLCn.Close();
+
+            return rowsAffected;
+
+        }
+        public async Task<int> DeleteItembyId(int id)
+        {
+            int crudResult;
             string sql = $"Delete from {tblName} where Id = {id}";
 
-            crudResult = CRUD(sql);
+            crudResult = await CRUDAsync(sql);
 
             return crudResult;
         }
-        
-        public int UpdateItembyId(Item item)
+
+        public async Task<int> UpdateItembyId(Item item)
         {
-            int crudResult;            
+            int crudResult;
             string sql = $"Update t Set t.name = '{item.Name}', t.price = {item.Price}, t.rating = {item.Rating}, t.ImagePath = '{item.ImagePath}'"
              + $" From {tblName} t where t.id = {item.Id}";
 
-            crudResult = CRUD(sql);
+            crudResult = await CRUDAsync(sql);
 
             return crudResult;
         }
-        public int InsertItem(Item item)
+        public async Task<int> InsertItem(Item item)
         {
-            int crudResult;            
+            int crudResult;
             string sql = $"Insert into {tblName} (Name, Price ,Rating) values ('{item.Name}', {item.Price}, {item.Rating})";
 
-            crudResult = CRUD(sql);
+            crudResult = await CRUDAsync(sql);
 
             return crudResult;
         }
