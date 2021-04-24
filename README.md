@@ -6,7 +6,7 @@ This is a repo with multiple apps and solutions.  it is a showcase for many app 
 API App the responds to CRUD HTTP commands
 Writes data to SQL Azure
 Writes data to File system via a custom filedb class
-Calls to SQL Azure are using Async
+Calls to SQL Azure are using Async 
 
 ### Razor Web App
 Basic web app to call API
