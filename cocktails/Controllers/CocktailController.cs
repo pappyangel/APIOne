@@ -26,17 +26,17 @@ namespace cocktails.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Item>>> GetAllCocktails()
         {
-             List<Item> itemList;
+            List<Item> itemList;
 
             // FileDB fileDB = new();
             // List<Item> itemList = fileDB.GetAllItems();
 
             SqlDb sqlDb = new(_configuration);
             itemList = await sqlDb.GetAllItems();
-            _logger.LogInformation("You asked for a list of all items");            
+            _logger.LogInformation("You asked for a list of all items");
 
             if (itemList.Count == 0)
-            {             
+            {
                 //return BadRequest($"Item not found: {Id}");
                 // reply with http code 204
                 return NoContent();
@@ -55,7 +55,7 @@ namespace cocktails.Controllers
             // this method was orignally for
             // internal maintenace when we
             // were creating FileDB
-            
+
             // List<Item> itemList;
 
             // // FileDB fileDB = new();
@@ -73,23 +73,14 @@ namespace cocktails.Controllers
         [HttpGet("id/{id:int}")]
         public async Task<ActionResult<List<Item>>> GetCocktailsById(int Id)
         {
-            
             // FileDB fileDB = new();
             // List<Item> fileItemList = fileDB.GetItemsbyId(Id);
-            
+
             SqlDb sqlDb = new(_configuration);
             List<Item> itemList = await sqlDb.GetItemsById(Id);
 
-            
-
             if (itemList.Count == 0)
-            {
-                // reply with http code 400
-                //return BadRequest($"Item not found: {Id}");
-                // reply with http code 204
                 return NoContent();
-
-            }
 
             _logger.LogInformation("Received request to return item: {@int}", Id);
 
@@ -97,7 +88,7 @@ namespace cocktails.Controllers
 
         } // end get by ID
 
-        
+
         [HttpGet("rating/{rating:decimal}")]
         public async Task<ActionResult<List<Item>>> GetCocktailsByRating(decimal rating)
         {
@@ -107,12 +98,15 @@ namespace cocktails.Controllers
             SqlDb sqlDb = new(_configuration);
             List<Item> itemList = await sqlDb.GetItemsByRating(rating);
 
+            if (itemList.Count == 0)
+                return NoContent();
+
             _logger.LogInformation("Received request to return item by this rating: {@decimal}", rating);
 
             return itemList;
 
         }
-       
+
         [HttpGet("price/{price:decimal}")]
         public async Task<ActionResult<List<Item>>> GetCocktailsByPrice(decimal price)
         {
@@ -121,6 +115,9 @@ namespace cocktails.Controllers
 
             SqlDb sqlDb = new(_configuration);
             List<Item> itemList = await sqlDb.GetItemsByPrice(price);
+
+            if (itemList.Count == 0)
+                return NoContent();
 
             _logger.LogInformation("Received request to return item by this price or lower: {@decimal}", price);
 
@@ -131,7 +128,7 @@ namespace cocktails.Controllers
 
         // cocktail/Post  -- insert new Item
         [HttpPost]
-        public async Task<string> AddCocktail(Item _item)
+        public async Task<ActionResult<string>> AddCocktail(Item _item)
         {
             int rowsAffected;
 
@@ -149,7 +146,7 @@ namespace cocktails.Controllers
 
         // cocktail/Put  -- update  Item by id
         [HttpPut]
-        public async Task<string> UpdateCocktail(Item item)
+        public async Task<ActionResult<string>> UpdateCocktail(Item item)
         {
             int rowsAffected;
             // FileDB fileDB = new();
@@ -157,6 +154,10 @@ namespace cocktails.Controllers
 
             SqlDb sqlDb = new(_configuration);
             rowsAffected = await sqlDb.UpdateItembyId(item);
+
+            if (rowsAffected == 0)
+                return NotFound();
+
 
             _logger.LogInformation("Received request to update this item: {@Item}", item);
 
@@ -167,7 +168,7 @@ namespace cocktails.Controllers
         // cocktail/Post  -- Delete Item
         [HttpDelete("id/{id:int}")]
         //[HttpDelete]
-        public async Task<string> DeleteCocktail(int id)
+        public async Task<ActionResult<string>> DeleteCocktail(int id)
         {
             int rowsAffected;
 
@@ -176,6 +177,10 @@ namespace cocktails.Controllers
 
             SqlDb sqlDb = new(_configuration);
             rowsAffected = await sqlDb.DeleteItembyId(id);
+
+            if (rowsAffected == 0)
+                return NotFound();
+                
 
             _logger.LogInformation("Received request to delete by this item id: {@int}", id);
 
