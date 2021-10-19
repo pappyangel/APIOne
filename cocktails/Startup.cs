@@ -28,7 +28,11 @@ namespace cocktails
         {
 
             services.AddControllers();
-            services.AddSwaggerGen();
+            //services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+          {
+              c.SwaggerDoc("v2", new OpenApiInfo { Title = "cocktails", Version = "v2" });
+          });
 
         }
 
@@ -36,11 +40,12 @@ namespace cocktails
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            app.UseSwagger();
+            //app.UseSwagger();
+            app.UseSwagger(p => p.SerializeAsV2 = true);
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
              {
-                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cocktail API V2.2");
+                 c.SwaggerEndpoint("/swagger/v2/swagger.json", "Cocktail API V2.2");
              });
 
             if (env.IsDevelopment())
