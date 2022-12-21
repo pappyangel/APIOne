@@ -39,7 +39,7 @@ jobs:
       uses: Azure/webapps-deploy@v2.2.5
       with:
         # Name of the Azure Web App
-        app-name: 'FrontendCocktails/prod2'
+        app-name: 'FrontendCocktails-prod2'
         # Applies to Web Apps(Windows and Linux) and Web App Containers(linux). Multi container scenario not supported. Publish profile (*.publishsettings) file contents with Web Deploy secrets
         #publish-profile: API_WEBAPP_PUBLISH_PROFILE
         #publish-profile: ${{ secrets.API_WEBAPP_PUBLISH_PROFILE }}   
