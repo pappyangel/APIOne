@@ -43,7 +43,8 @@ jobs:
         # Applies to Web Apps(Windows and Linux) and Web App Containers(linux). Multi container scenario not supported. Publish profile (*.publishsettings) file contents with Web Deploy secrets
         #publish-profile: API_WEBAPP_PUBLISH_PROFILE
         #publish-profile: ${{ secrets.API_WEBAPP_PUBLISH_PROFILE }}   
-        publish-profile: ${{ secrets.COCKTAIL_FRONTEND_PROD2_PUBLISH_PROFILE }}   
+        #publish-profile: ${{ secrets.COCKTAIL_FRONTEND_PROD2_PUBLISH_PROFILE }}   
+        publish-profile: ${{ secrets.COCKTAIL_FRONTEND_MCAPS_PUBLISH_PROFILE }}
         #COCKTAIL_API_API_FRONTEND_PUBLISH_PROFILE
         # Enter an existing Slot other than the Production slot
         #slot-name: prod2
