@@ -35,7 +35,11 @@ namespace cocktails
                     //var azureServiceTokenProvider;
                     if (!string.IsNullOrEmpty(keyVaultEndpoint))
                     {
-                        var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                        //below line for production
+                        // var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                        
+                        //below line for development
+                        var azureServiceTokenProvider = new AzureServiceTokenProvider("RunAs=Developer; DeveloperTool=AzureCli");
 
                         var keyVaultClient = new KeyVaultClient(
                             new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
