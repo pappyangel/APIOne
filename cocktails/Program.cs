@@ -24,19 +24,25 @@ namespace cocktails
             .ConfigureAppConfiguration((context, config) =>
                 {
                     var env = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
-                    var envKVToken = Environment.GetEnvironmentVariable("AzureServicesAuthConnectionString");
+                    
+                    // In Production/Azure, auth will use managed identity.  In Dev, we set value for CLI logged in user.
+                    //var RunAsParm = Environment.GetEnvironmentVariable("AzureServicesAuthConnectionString");
 
                     var settings = config.Build();
 
                     // To Do: use Managed Identity when move to Azure
 
                     var keyVaultEndpoint = settings["AzureKeyVaults:defaultEndpoint"];
+                    // In Production/Azure, auth will use managed identity.  In Dev, we set value for CLI logged in user.
+                    var RunAsParm = settings["AzureServicesAuthConnectionString"];
+                  
 
                     //var azureServiceTokenProvider;
+
                     if (!string.IsNullOrEmpty(keyVaultEndpoint))
                     {
-                        var azureServiceTokenProvider = new AzureServiceTokenProvider();
-
+                        var azureServiceTokenProvider = new AzureServiceTokenProvider(RunAsParm);
+                     
                         var keyVaultClient = new KeyVaultClient(
                             new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
 
