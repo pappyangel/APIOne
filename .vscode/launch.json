@@ -40,8 +40,7 @@
             //     "action": "openExternally",
             //     "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
             // },            
-            "env": {
-                "AzureServicesAuthConnectionString": "RunAs=Developer; DeveloperTool=AzureCli",
+            "env": {                
                 "ASPNETCORE_ENVIRONMENT": "Development",
                 "DOTNET_ENVIRONMENT" : "Development"
             },
