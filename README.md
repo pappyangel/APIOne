@@ -1,4 +1,9 @@
 
+# dev branch notes for MCAPS Deployment 7-2024
+
+changes tracked for move to new Azure subscription
+upgrade to .net 8
+
 # Release 3.0
 
 Moved to Managed Identity vs. using SQL Server auth with a login and password

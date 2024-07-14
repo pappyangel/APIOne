@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "frontend", "frontend\frontend.csproj", "{A572F12A-15A7-413C-8967-24F3B75E5EA6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cocktails", "cocktails\cocktails.csproj", "{9BC777EA-9B8C-4140-962D-9C1E32189C3B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A572F12A-15A7-413C-8967-24F3B75E5EA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A572F12A-15A7-413C-8967-24F3B75E5EA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A572F12A-15A7-413C-8967-24F3B75E5EA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A572F12A-15A7-413C-8967-24F3B75E5EA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BC777EA-9B8C-4140-962D-9C1E32189C3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BC777EA-9B8C-4140-962D-9C1E32189C3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BC777EA-9B8C-4140-962D-9C1E32189C3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BC777EA-9B8C-4140-962D-9C1E32189C3B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34997180-12EF-48EB-8026-1E3E44211A2C}
+	EndGlobalSection
+EndGlobal
