@@ -6,5 +6,6 @@ az login --tenant 33824df8-959e-49c3-9d78-a56a9e310102
 az account list --output table
 # MSFTJim-FY25-Dev-Sub - 94b9572a-bee4-436c-8837-c5dbb982e8b0
 az account set --subscription "MSFTJim-FY25-Dev-Sub"
-
+az account get-access-token --resource https://vault.azure.net
+# If you receive an error, check that the right version of Azure CLI is correctly installed.
 az ad signed-in-user show

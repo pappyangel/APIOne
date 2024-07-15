@@ -34,7 +34,7 @@ namespace cocktails.DB
                 _configuration["ConnectionStrings:defaultConnection"]);
 
             var keyVaultSecretLookup = _configuration["AzureKeyVaultSecret:defaultSecret"];
-            //builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
+            builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
 
             SqlConnection sqlDBCn = new SqlConnection(builder.ConnectionString);
 
