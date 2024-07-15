@@ -1,8 +1,10 @@
 
 # dev branch notes for MCAPS Deployment 7-2024
 
-changes tracked for move to new Azure subscription
-upgrade to .net 8
+changes tracked for move to new Azure subscription \
+upgrade to .net 8 
+
+Key Vault Secrets User - RBAC Permissions to read key vault
 
 # Release 3.0
 
