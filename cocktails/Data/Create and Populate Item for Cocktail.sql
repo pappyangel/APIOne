@@ -5,16 +5,20 @@ GO
 -- Create the table in the specified schema
 
 
-CREATE TABLE [dbo].[Items]
-(
-      [Id] INT identity (1001,1) NOT NULL PRIMARY KEY -- Primary Key column
-    , [Name]  VARCHAR(20) 
-    , [Price] numeric(10,2)
-    , Rating  numeric(10,2)
-	, ImagePath varchar(255) NULL
-    -- Specify more columns here
+
+
+CREATE TABLE [dbo].[Items] (
+    [Id]        INT             IDENTITY (1001, 1) NOT NULL,
+    [Name]      VARCHAR (20)    NULL,
+    [Price]     NUMERIC (10, 2) NULL,
+    [Rating]    NUMERIC (10, 2) NULL,
+    [ImagePath] VARCHAR (255)   CONSTRAINT [DEFAULT_Items_ImagePath] DEFAULT ('NoImage.jpg') NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 GO
+
 
 drop view ItemsVw
 
@@ -24,6 +28,8 @@ create view ItemsVw as
 	select [Id], [Name], [Price], [Rating], [ImagePath]
 	from Items
 	)
+
+
 
 
 

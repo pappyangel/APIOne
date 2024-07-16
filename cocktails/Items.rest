@@ -11,7 +11,7 @@ POST http://127.0.0.1:5000/Cocktails
 Content-Type: application/json
 
 {       
-    "name": "revised packages",
+    "name": "ddl revised packages",
     "price": 15.25,
     "rating": 4.2,
     "ImagePath": "NoImage.jpg"
