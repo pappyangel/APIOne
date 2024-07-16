@@ -1,7 +1,7 @@
 ###Rest API Client
 
 ### Get one
-GET http://127.0.0.1:5000/cocktails/id/1005
+GET http://127.0.0.1:5000/cocktails/id/1012
 
 ### get All
 GET http://127.0.0.1:5000/Cocktails/
@@ -10,10 +10,21 @@ GET http://127.0.0.1:5000/Cocktails/
 POST http://127.0.0.1:5000/Cocktails 
 Content-Type: application/json
 
-{    
-   
-    "name": "201 or 200",
+{       
+    "name": "revised packages",
     "price": 15.25,
     "rating": 4.2,
-    "ImagePath": ""
+    "ImagePath": "NoImage.jpg"
+}
+
+### Update a cocktail
+PUT  http://127.0.0.1:5000/Cocktails 
+Content-Type: application/json
+
+{       
+    "id": 1013,
+    "name": "TWO revised packages",
+    "price": 15.25,
+    "rating": 4.2,
+    "ImagePath": "NoImage.jpg"
 }
