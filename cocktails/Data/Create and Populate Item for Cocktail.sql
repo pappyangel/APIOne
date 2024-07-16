@@ -21,7 +21,7 @@ GO
 
 
 drop view ItemsVw
-
+go
 -- this wil test for all items returned
 create view ItemsVw as
 	(
@@ -29,7 +29,7 @@ create view ItemsVw as
 	from Items
 	)
 
-
+go
 
 
 
