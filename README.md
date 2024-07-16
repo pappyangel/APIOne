@@ -1,5 +1,16 @@
 
 # dev branch notes for MCAPS Deployment 7-2024
+Added default NoImage.jpg to ddl in Database items table
+```Code
+CREATE TABLE [dbo].[Items] (
+    [Id]        INT             IDENTITY (1001, 1) NOT NULL,
+    [Name]      VARCHAR (20)    NULL,
+    [Price]     NUMERIC (10, 2) NULL,
+    [Rating]    NUMERIC (10, 2) NULL,
+    [ImagePath] VARCHAR (255)   CONSTRAINT [DEFAULT_Items_ImagePath] DEFAULT ('NoImage.jpg') NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+```
 
 changes tracked for move to new Azure subscription \
 upgrade to .net 8 
