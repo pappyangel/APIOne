@@ -11,7 +11,7 @@ POST http://127.0.0.1:5000/Cocktails
 Content-Type: application/json
 
 {       
-    "name": "ddl revised packages",
+    "name": "newbee",
     "price": 15.25,
     "rating": 4.2,
     "ImagePath": "NoImage.jpg"
@@ -23,8 +23,11 @@ Content-Type: application/json
 
 {       
     "id": 1013,
-    "name": "TWO revised packages",
+    "name": "update one",
     "price": 15.25,
     "rating": 4.2,
     "ImagePath": "NoImage.jpg"
 }
+### Delete a cocktail
+DELETE   http://127.0.0.1:5000/Cocktails/id/1013
+Content-Type: application/json
