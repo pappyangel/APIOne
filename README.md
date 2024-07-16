@@ -15,7 +15,12 @@ CREATE TABLE [dbo].[Items] (
 changes tracked for move to new Azure subscription \
 upgrade to .net 8 
 
-Key Vault Secrets User - RBAC Permissions to read key vault
+### App Service process
+create new app services and plan - Free plan should work \
+add AppInsights \
+To let API AppService access KeyVault, turn on SMI under Settings, Identity \
+Then assign that SMI, Key Vault Secrets User - RBAC Permissions
+
 
 # Release 3.0
 

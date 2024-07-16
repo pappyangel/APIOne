@@ -20,7 +20,6 @@ Content-Type: application/json
 ### Update a cocktail
 PUT  http://127.0.0.1:5000/Cocktails 
 Content-Type: application/json
-
 {       
     "id": 1013,
     "name": "update one",
@@ -28,6 +27,7 @@ Content-Type: application/json
     "rating": 4.2,
     "ImagePath": "NoImage.jpg"
 }
+
 ### Delete a cocktail
 DELETE   http://127.0.0.1:5000/Cocktails/id/1013
 Content-Type: application/json
