@@ -3,10 +3,6 @@ IF OBJECT_ID('[dbo].[items]', 'U') IS NOT NULL
 DROP TABLE [dbo].[items]
 GO
 -- Create the table in the specified schema
-
-
-
-
 CREATE TABLE [dbo].[Items] (
     [Id]        INT             IDENTITY (1001, 1) NOT NULL,
     [Name]      VARCHAR (20)    NULL,
@@ -15,10 +11,7 @@ CREATE TABLE [dbo].[Items] (
     [ImagePath] VARCHAR (255)   CONSTRAINT [DEFAULT_Items_ImagePath] DEFAULT ('NoImage.jpg') NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
-
-
 GO
-
 
 drop view ItemsVw
 go

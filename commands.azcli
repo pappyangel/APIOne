@@ -9,3 +9,9 @@ az account set --subscription "MSFTJim-FY25-Dev-Sub"
 az account get-access-token --resource https://vault.azure.net
 # If you receive an error, check that the right version of Azure CLI is correctly installed.
 az ad signed-in-user show
+
+AppServiceSMI=$(az sql server show --resource-group "rg-DataServices" --name "jfv-sql" --query identity.principalId)
+echo $AppServiceSMI 
+
+dog='Cosmo'
+echo $dog
