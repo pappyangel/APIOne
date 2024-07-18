@@ -1,20 +1,33 @@
 ###Rest API Client
 
 ### Get one
-GET http://127.0.0.1:5000/cocktails/id/1005
+GET http://127.0.0.1:5000/cocktails/id/1012
 
 ### get All
 GET http://127.0.0.1:5000/Cocktails/
 
 ### Insert a cocktail
 POST http://127.0.0.1:5000/Cocktails 
-
 Content-Type: application/json
 
-{    
-    "id": 1099,
-    "name": "201 or 200",
+{       
+    "name": "newbee",
     "price": 15.25,
     "rating": 4.2,
-    "ImagePath": ""
+    "ImagePath": "NoImage.jpg"
 }
+
+### Update a cocktail
+PUT  http://127.0.0.1:5000/Cocktails 
+Content-Type: application/json
+{       
+    "id": 1013,
+    "name": "update one",
+    "price": 15.25,
+    "rating": 4.2,
+    "ImagePath": "NoImage.jpg"
+}
+
+### Delete a cocktail
+DELETE   http://127.0.0.1:5000/Cocktails/id/1013
+Content-Type: application/json
