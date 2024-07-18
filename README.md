@@ -27,6 +27,15 @@ upgrade to .net 8
     - create user and assign permissions
         - see script in script folder 
 
+### Code changes for move to production app service 
+- In the Frontend
+    - update appsettings and change to production url of API
+
+- In the API
+    - set the RunAsParm to SMI
+    - update SQL connection string to use production
+
+
 
 # Release 3.0
 

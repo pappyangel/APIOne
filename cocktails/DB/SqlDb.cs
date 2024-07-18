@@ -33,6 +33,7 @@ namespace cocktails.DB
             var builder = new SqlConnectionStringBuilder(
                 _configuration["ConnectionStrings:defaultConnection"]);
 
+            // The below 2 lines are used during development only.  SMI is used in Production
             var keyVaultSecretLookup = _configuration["AzureKeyVaultSecret:defaultSecret"];
             builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
 
