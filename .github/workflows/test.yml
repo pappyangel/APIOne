@@ -1,4 +1,4 @@
-name: build-deploy
+name: build-deploy-IMPROVED
 
 on:
     workflow_dispatch:
@@ -10,9 +10,17 @@ jobs:
       - name: Restore, Build, Test, Publish  
         run: echo Restore, Build, Test, Publish
 
-  deploy:
+  Deploy-to-Test:
     runs-on: ubuntu-latest
-    name: Deploy App to Azure WebService
+    name: Deploy App to test Azure WebService
+
+    steps:
+      - name: Deploy App to Azure WebService
+        run: echo Restore, Build, Test, Publish
+
+  Deploy-to-Prod:
+    runs-on: ubuntu-latest
+    name: Deploy App to Prod Azure WebService
 
     steps:
       - name: Deploy App to Azure WebService
