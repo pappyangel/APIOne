@@ -1,0 +1,19 @@
+name: buid-deploy
+
+on:
+    workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore, Build, Test, Publish  
+        run: echo Restore, Build, Test, Publish
+
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy App to Azure WebService
+
+    steps:
+      - name: Deploy App to Azure WebService
+        run: echo Restore, Build, Test, Publish
