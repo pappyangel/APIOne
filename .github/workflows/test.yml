@@ -1,4 +1,4 @@
-name: buid-deploy
+name: build-deploy
 
 on:
     workflow_dispatch:
