@@ -1,0 +1,40 @@
+name: build-deploy
+
+on:
+    workflow_dispatch:
+
+jobs:
+  job1a:
+    name: build-code  
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore, Build, Test, Publish  
+        run: echo Restore, Build, Test, Publish    
+  job1b:
+    name: deploy-sql  
+    runs-on: ubuntu-latest
+    steps:
+      - name: schema, triggers & sprocs  
+        run: echo deploy sql
+  job1c:
+    name: deploy-cosmos  
+    runs-on: ubuntu-latest
+    steps:
+      - name: cosmos document db  
+        run: echo cosmos document db  
+
+  job2:
+    runs-on: ubuntu-latest
+    name: Deploy App to test Azure WebService
+    needs: [job1a,job1b,job1c]
+    steps:
+      - name: Deploy App to Azure WebService
+        run: echo Restore, Build, Test, Publish
+
+  job3:
+    runs-on: ubuntu-latest
+    name: Deploy App to Prod Azure WebService
+    needs: job2
+    steps:
+      - name: Deploy App to Azure WebService
+        run: echo Restore, Build, Test, Publish
