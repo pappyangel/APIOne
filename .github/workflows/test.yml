@@ -9,5 +9,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Tell me what you ate
-        run: echo ${{ env.DINNER }} ${{ vars.DINNER }}
+        run: echo ${{ env.DINNER }} ${{ vars.DINNER }} ${{vars.GITHUB_ACTOR}}	
   
