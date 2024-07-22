@@ -1,0 +1,43 @@
+name: BuildDeploy FrontEnd
+
+on:    
+  push:
+    branches: main
+    paths:
+    - 'frontend/**'    
+    
+  workflow_dispatch:  
+
+jobs:
+  Build-Publish-Deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out source code
+      uses: actions/checkout@v4    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore, Build, Test, Publish  
+      run: |
+        cd frontend
+        dotnet restore   
+        dotnet build --no-restore
+        dotnet test --no-build --verbosity normal
+        dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp 
+    
+    # - name: Deploy App to Azure WebService
+    #   uses: Azure/webapps-deploy@v2.2.5
+    #   with:       
+    #     publish-profile: ${{ secrets.COCKTAIL_FRONTEND_MCAPS_PUBLISH_PROFILE }}        
+        # Enter an existing Slot other than the Production slot
+        #slot-name: prod2
+        # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy
+        # package: ${{env.DOTNET_ROOT}}/myapp 
+        
+        
+        
+        
+        
