@@ -28,14 +28,14 @@ jobs:
         dotnet test --no-build --verbosity normal
         dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp 
     
-    - name: Deploy App to Azure WebService
-      uses: Azure/webapps-deploy@v2.2.5
-      with:       
-        publish-profile: ${{ secrets.COCKTAIL_FRONTEND_MCAPS_PUBLISH_PROFILE }}        
+    # - name: Deploy App to Azure WebService
+    #   uses: Azure/webapps-deploy@v2.2.5
+    #   with:       
+    #     publish-profile: ${{ secrets.COCKTAIL_FRONTEND_MCAPS_PUBLISH_PROFILE }}        
         # Enter an existing Slot other than the Production slot
         #slot-name: prod2
         # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy
-        package: ${{env.DOTNET_ROOT}}/myapp 
+        # package: ${{env.DOTNET_ROOT}}/myapp 
         
         
         
