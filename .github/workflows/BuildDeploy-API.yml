@@ -28,17 +28,9 @@ jobs:
         dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp 
     
     - name: Deploy App to Azure WebService
-      uses: Azure/webapps-deploy@v2.2.5
+      uses: Azure/webapps-deploy@v3.0.1
       with:
-        # Name of the Azure Web App
-        # app-name: 'APICocktails'
-        # Applies to Web Apps(Windows and Linux) and Web App Containers(linux). Multi container scenario not supported. Publish profile (*.publishsettings) file contents with Web Deploy secrets
-        #publish-profile: API_WEBAPP_PUBLISH_PROFILE
-        #publish-profile: ${{ secrets.API_WEBAPP_PUBLISH_PROFILE }}   
-        #publish-profile: ${{ secrets.COCKTAIL_API_WEBAPP_PUBLISH_PROFILE }}   
-        #publish-profile: ${{ secrets.COCKTAIL_API_PROD2_WEBAPP_PUBLISH_PROFILE }}   
         publish-profile: ${{ secrets.COCKTAIL_API_MCAPS_PUBLISH_PROFILE }}
-        #COCKTAIL_API_WEBAPP_PUBLISH_PROFILE
         # Enter an existing Slot other than the Production slot
         #slot-name: # optional, default is production
         # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy
