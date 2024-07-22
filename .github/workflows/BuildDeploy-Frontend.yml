@@ -4,14 +4,7 @@ on:
   push:
     branches: main
     paths:
-    - 'frontend/**'
-
-#   pull_request:    
-#     branches: main
-#     paths:
-#     - 'frontend/**'
-#     types: [closed]
-    
+    - 'frontend/**'    
     
   workflow_dispatch:  
 
@@ -22,11 +15,11 @@ jobs:
 
     steps:
     - name: Check out source code
-      uses: actions/checkout@v2    
+      uses: actions/checkout@v4    
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 8.0.x
     - name: Restore, Build, Test, Publish  
       run: |
         cd frontend
@@ -37,15 +30,8 @@ jobs:
     
     - name: Deploy App to Azure WebService
       uses: Azure/webapps-deploy@v2.2.5
-      with:
-        # Name of the Azure Web App
-        #app-name: 'FrontendCocktails/prod2'
-        # Applies to Web Apps(Windows and Linux) and Web App Containers(linux). Multi container scenario not supported. Publish profile (*.publishsettings) file contents with Web Deploy secrets
-        #publish-profile: API_WEBAPP_PUBLISH_PROFILE
-        #publish-profile: ${{ secrets.API_WEBAPP_PUBLISH_PROFILE }}   
-        #publish-profile: ${{ secrets.COCKTAIL_FRONTEND_PROD2_PUBLISH_PROFILE }}   
-        publish-profile: ${{ secrets.COCKTAIL_FRONTEND_MCAPS_PUBLISH_PROFILE }}
-        #COCKTAIL_API_API_FRONTEND_PUBLISH_PROFILE
+      with:       
+        publish-profile: ${{ secrets.COCKTAIL_FRONTEND_MCAPS_PUBLISH_PROFILE }}        
         # Enter an existing Slot other than the Production slot
         #slot-name: prod2
         # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy
