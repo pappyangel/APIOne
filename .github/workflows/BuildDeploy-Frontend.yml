@@ -35,9 +35,4 @@ jobs:
         # Enter an existing Slot other than the Production slot
         #slot-name: prod2
         # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy
-        package: ${{env.DOTNET_ROOT}}/myapp 
-        
-        
-        
-        
-        
+        package: ${{env.DOTNET_ROOT}}/myapp        
