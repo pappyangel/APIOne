@@ -20,7 +20,7 @@ namespace frontend
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseUrls("https://localhost:5200");
+                    //webBuilder.UseUrls("https://localhost:5200");
                     webBuilder.UseStartup<Startup>();
                 });
     }
