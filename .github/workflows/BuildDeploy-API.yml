@@ -1,4 +1,4 @@
-name: BPD API App
+name: BuildDeploy API
 
 on:
   push:
