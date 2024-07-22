@@ -29,8 +29,9 @@ jobs:
         dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp     
         
     - name: Deploy App to Azure WebService
-      uses: Azure/webapps-deploy@v2.2.5
+      uses: Azure/webapps-deploy@v3.0.1
       with:       
+        app-name: 'Cocktail-Frontend'
         publish-profile: ${{ secrets.COCKTAIL_FRONTEND_MCAPS_F25_PUBLISH_PROFILE }}        
         # Enter an existing Slot other than the Production slot
         #slot-name: prod2
