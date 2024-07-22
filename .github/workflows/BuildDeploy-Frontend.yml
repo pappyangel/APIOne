@@ -1,4 +1,4 @@
-name: BPD FrontEnd
+name: BuildDeploy FrontEnd
 
 on:    
   push:
