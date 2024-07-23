@@ -35,7 +35,11 @@ upgrade to .net 8
     - set the RunAsParm to SMI
     - update SQL connection string to use production
 
-
+### Additional notes
+- In the frontend app we were using a hard coded listen on url.  This was needed during development but will break production if left in.
+    - Technically, this should not be done in code at all, but rather via the launchSettings.json file in Properties folder.
+- In the API, we add a Password paramter to the SQL connection string during development.  This will break production which uses SMI.  This line of code needs to be commented out.
+- During the process of deploying and verifying success, it was very helpful to use the App Services, Developet Tools, Advanced Tools - specifically Log stream and site wwwroot.
 
 # Release 3.0
 
