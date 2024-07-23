@@ -35,7 +35,7 @@ namespace cocktails.DB
 
             // The below 2 lines are used during development only.  SMI is used in Production
             var keyVaultSecretLookup = _configuration["AzureKeyVaultSecret:defaultSecret"];
-            builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
+            // builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
 
             SqlConnection sqlDBCn = new SqlConnection(builder.ConnectionString);
 
