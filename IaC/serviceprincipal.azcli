@@ -1,0 +1,8 @@
+
+RESOURCE_GROUP="rg-iac"
+LOC="eastus2"
+SUBSCRIPTION_ID="94b9572a-bee4-436c-8837-c5dbb982e8b0"
+
+az group create --name $RESOURCE_GROUP --location $LOC
+
+az ad sp create-for-rbac --name "iacSP" --role "Contributor" --scopes "/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP"
