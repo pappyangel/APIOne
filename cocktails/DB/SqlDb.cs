@@ -30,12 +30,19 @@ namespace cocktails.DB
 
         public SqlConnection GetSQLCn()
         {
+            var env = _configuration["ASPNETCORE_ENVIRONMENT"];
+            bool isDevelopment = env == "Development";
+
             var builder = new SqlConnectionStringBuilder(
                 _configuration["ConnectionStrings:defaultConnection"]);
+            
+            if (isDevelopment)
+            {
+                // The below 2 lines are used during development only.  SMI is used in Production
+                var keyVaultSecretLookup = _configuration["AzureKeyVaultSecret:defaultSecret"];
+                builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
+            }
 
-            // The below 2 lines are used during development only.  SMI is used in Production
-            var keyVaultSecretLookup = _configuration["AzureKeyVaultSecret:defaultSecret"];
-            // builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
 
             SqlConnection sqlDBCn = new SqlConnection(builder.ConnectionString);
 
