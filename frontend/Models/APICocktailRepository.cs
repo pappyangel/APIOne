@@ -80,11 +80,16 @@ namespace frontend.models
             return cocktailList;
         }
 
-        public async Task<List<Item>> DeleteItemAsync(int cocktailIdToDelete)
+        //public async Task<List<Item>> DeleteItemAsync(int cocktailIdToDelete)
+        public async Task<List<Item>> DeleteItemAsync(Item cocktailIdToDelete)
         {
 
-            var deleteUrl = apiUrl + "/id/" + cocktailIdToDelete;
+            var deleteUrl = apiUrl + "/id/" + cocktailIdToDelete.Id;
             var response = await APIclient.DeleteAsync(deleteUrl);
+
+            // var jsonItem = JsonSerializer.Serialize(cocktailIdToDelete);
+            // var httpContent = new StringContent(jsonItem, Encoding.UTF8, "application/json");            
+            // var response = await APIclient.DeleteAsync(apiUrl, httpContent)
 
 
             cocktailList = await APIclient.GetFromJsonAsync<List<Item>>(apiUrl);
