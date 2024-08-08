@@ -186,7 +186,7 @@ namespace cocktails.Controllers
                 return NotFound();
                 
 
-            _logger.LogInformation("Received request to delete by this item id: {@int}", id);
+            _logger.LogInformation("Received request to delete this item: {@int}", id);
 
             return $"Row(s) deleted were: {rowsAffected}";
 
