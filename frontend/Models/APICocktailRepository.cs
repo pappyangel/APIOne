@@ -81,10 +81,10 @@ namespace frontend.models
         }
 
         //public async Task<List<Item>> DeleteItemAsync(int cocktailIdToDelete)
-        public async Task<List<Item>> DeleteItemAsync(Item cocktailIdToDelete)
+        public async Task<List<Item>> DeleteItemAsync(Item cocktailToDelete)
         {
 
-            var deleteUrl = apiUrl + "/id/" + cocktailIdToDelete.Id;
+            var deleteUrl = apiUrl + "/id/" + cocktailToDelete.Id;
             var response = await APIclient.DeleteAsync(deleteUrl);
 
             // var jsonItem = JsonSerializer.Serialize(cocktailIdToDelete);

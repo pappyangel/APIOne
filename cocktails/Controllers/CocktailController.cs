@@ -166,10 +166,12 @@ namespace cocktails.Controllers
         }
 
         // cocktail/Post  -- Delete Item
-        [HttpDelete("id/{id:int}")]
+
         //[HttpDelete]
-        public async Task<ActionResult<string>> DeleteCocktail(int id)
         //public async Task<ActionResult<string>> DeleteCocktail(Item item)
+
+        [HttpDelete("id/{id:int}")]
+        public async Task<ActionResult<string>> DeleteCocktail(int id)     
 
         {
             int rowsAffected;
