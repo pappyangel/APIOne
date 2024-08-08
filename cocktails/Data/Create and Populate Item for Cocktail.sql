@@ -5,10 +5,10 @@ GO
 -- Create the table in the specified schema
 CREATE TABLE [dbo].[Items] (
     [Id]        INT             IDENTITY (1001, 1) NOT NULL,
-    [Name]      VARCHAR (20)    NULL,
+    [Name]      VARCHAR (50)    NULL,
     [Price]     NUMERIC (10, 2) NULL,
     [Rating]    NUMERIC (10, 2) NULL,
-    [ImagePath] VARCHAR (255)   CONSTRAINT [DEFAULT_Items_ImagePath] DEFAULT ('NoImage.jpg') NULL,
+    [ImagePath] VARCHAR (255)   CONSTRAINT [DEFAULT_Items_ImagePath] DEFAULT ('NoImageSelected.png') NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 GO

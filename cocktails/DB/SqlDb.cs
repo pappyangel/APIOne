@@ -184,7 +184,7 @@ namespace cocktails.DB
 
             if (sqlStatetment.StartsWith("I", IgnoreCase, null) | sqlStatetment.StartsWith("U", IgnoreCase, null))
             {
-                crudCommand.Parameters.Add("@ItemName", SqlDbType.VarChar, 20).Value = item.Name;
+                crudCommand.Parameters.Add("@ItemName", SqlDbType.VarChar, 50).Value = item.Name;
                 var paramPrice = crudCommand.Parameters.Add("@ItemPrice", SqlDbType.Decimal);
                 paramPrice.Value = item.Price;
                 paramPrice.Precision = 10;
@@ -245,8 +245,8 @@ namespace cocktails.DB
         public async Task<int> UpdateItembyId(Item item)
         {
             int crudResult;
-            string sql = $"Update t Set t.name = '{item.Name}', t.price = {item.Price}, t.rating = {item.Rating}, t.ImagePath = '{item.ImagePath}'"
-             + $" From {tblName} t where t.id = {item.Id}";
+            string sql = $"Update t Set t.name = @ItemName, t.price = @ItemPrice, t.rating = @ItemRating, t.ImagePath = @ItemImagePath"
+             + $" From {tblName} t where t.id = @ItemId";
 
             crudResult = await CRUDAsync(sql,item);
 
@@ -255,8 +255,8 @@ namespace cocktails.DB
         public async Task<int> InsertItem(Item item)
         {
             int crudResult;
-            string sql = $"Insert into {tblName} (Name, Price ,Rating, ImagePath) values ('{item.Name}', {item.Price}, {item.Rating}, {item.ImagePath})";
-
+            string sql = $"Insert into {tblName} (Name, Price ,Rating, ImagePath) values (@ItemName, @ItemPrice, @ItemRating, @ItemImagePath)";
+            item.ImagePath = item.ImagePath ?? "NoImageSelected.png";
             crudResult = await CRUDAsync(sql, item);
 
             return crudResult;
