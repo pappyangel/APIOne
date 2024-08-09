@@ -31,7 +31,7 @@
             "request": "launch",
             "preLaunchTask": "build API",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/cocktails/bin/Debug/net7.0/cocktails.dll",
+            "program": "${workspaceFolder}/cocktails/bin/Debug/net8.0/cocktails.dll",
             "args": [],
             "cwd": "${workspaceFolder}/cocktails",
             "stopAtEntry": false,

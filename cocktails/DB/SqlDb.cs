@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using cocktails.models;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace cocktails.DB
 {
@@ -30,12 +31,19 @@ namespace cocktails.DB
 
         public SqlConnection GetSQLCn()
         {
+            var env = _configuration["ASPNETCORE_ENVIRONMENT"];
+            bool isDevelopment = env == "Development";
+
             var builder = new SqlConnectionStringBuilder(
                 _configuration["ConnectionStrings:defaultConnection"]);
+            
+            if (isDevelopment)
+            {
+                // The below 2 lines are used during development only.  SMI is used in Production
+                var keyVaultSecretLookup = _configuration["AzureKeyVaultSecret:defaultSecret"];
+                builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
+            }
 
-            // The below 2 lines are used during development only.  SMI is used in Production
-            var keyVaultSecretLookup = _configuration["AzureKeyVaultSecret:defaultSecret"];
-            // builder.Password = _configuration.GetValue<string>(keyVaultSecretLookup);
 
             SqlConnection sqlDBCn = new SqlConnection(builder.ConnectionString);
 
@@ -161,7 +169,50 @@ namespace cocktails.DB
             return rowsAffected;
 
         }
-        private async Task<int> CRUDAsync(string sqlStatetment)
+        private async Task<int> CRUDAsync(string sqlStatetment, Item item)
+        {
+            int rowsAffected = 0;
+
+            using SqlConnection SQLCn = GetSQLCn();
+
+            using SqlCommand crudCommand = new SqlCommand(sqlStatetment, SQLCn);
+            crudCommand.CommandType = CommandType.Text;
+
+            bool IgnoreCase = true;
+            if (sqlStatetment.StartsWith("D", IgnoreCase, null) | sqlStatetment.StartsWith("U", IgnoreCase, null))
+                crudCommand.Parameters.Add("@ItemId", SqlDbType.Int).Value = item.Id;
+
+            if (sqlStatetment.StartsWith("I", IgnoreCase, null) | sqlStatetment.StartsWith("U", IgnoreCase, null))
+            {
+                crudCommand.Parameters.Add("@ItemName", SqlDbType.VarChar, 50).Value = item.Name;
+                var paramPrice = crudCommand.Parameters.Add("@ItemPrice", SqlDbType.Decimal);
+                paramPrice.Value = item.Price;
+                paramPrice.Precision = 10;
+                paramPrice.Scale = 2;
+                var paramRating = crudCommand.Parameters.Add("@ItemRating", SqlDbType.Decimal);
+                paramRating.Value = item.Rating;
+                paramRating.Precision = 10;
+                paramRating.Scale = 2;                
+                crudCommand.Parameters.Add("@ItemImagePath", SqlDbType.VarChar, 255).Value = item.ImagePath;
+            }
+
+            try
+            {
+                await SQLCn.OpenAsync();
+                rowsAffected = await crudCommand.ExecuteNonQueryAsync();
+            }
+            catch (Exception Ex)
+            {
+                string methodReturnValue = Ex.Message;
+                rowsAffected = -1;
+                // throw;
+            }
+
+            return rowsAffected;
+
+        }
+
+        private async Task<int> oldCRUDAsync(string sqlStatetment)
         {
             SqlCommand command;
             int rowsAffected;
@@ -182,9 +233,11 @@ namespace cocktails.DB
         public async Task<int> DeleteItembyId(int id)
         {
             int crudResult;
-            string sql = $"Delete from {tblName} where Id = {id}";
+            Item itemToDelete = new Item { Id = id };
 
-            crudResult = await CRUDAsync(sql);
+            string sql = $"Delete from {tblName} where Id = @ItemId";
+
+            crudResult = await CRUDAsync(sql, itemToDelete);
 
             return crudResult;
         }
@@ -192,19 +245,19 @@ namespace cocktails.DB
         public async Task<int> UpdateItembyId(Item item)
         {
             int crudResult;
-            string sql = $"Update t Set t.name = '{item.Name}', t.price = {item.Price}, t.rating = {item.Rating}, t.ImagePath = '{item.ImagePath}'"
-             + $" From {tblName} t where t.id = {item.Id}";
+            string sql = $"Update t Set t.name = @ItemName, t.price = @ItemPrice, t.rating = @ItemRating, t.ImagePath = @ItemImagePath"
+             + $" From {tblName} t where t.id = @ItemId";
 
-            crudResult = await CRUDAsync(sql);
+            crudResult = await CRUDAsync(sql,item);
 
             return crudResult;
         }
         public async Task<int> InsertItem(Item item)
         {
             int crudResult;
-            string sql = $"Insert into {tblName} (Name, Price ,Rating) values ('{item.Name}', {item.Price}, {item.Rating})";
-
-            crudResult = await CRUDAsync(sql);
+            string sql = $"Insert into {tblName} (Name, Price ,Rating, ImagePath) values (@ItemName, @ItemPrice, @ItemRating, @ItemImagePath)";
+            item.ImagePath = item.ImagePath ?? "NoImageSelected.png";
+            crudResult = await CRUDAsync(sql, item);
 
             return crudResult;
         }

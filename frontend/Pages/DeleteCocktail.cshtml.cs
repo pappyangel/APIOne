@@ -32,8 +32,9 @@ namespace frontend.Pages
         public async Task<IActionResult> OnPost(Item cocktailToDelete)
         {
             // call the add method
-            await cocktailRepository.DeleteItemAsync(cocktailToDelete.Id);
-         
+            //await cocktailRepository.DeleteItemAsync(cocktailToDelete.Id);
+            await cocktailRepository.DeleteItemAsync(cocktailToDelete);
+
             // redirect to summary page
             return Redirect("/Cocktails");
 
