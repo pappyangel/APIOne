@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build Frontend",
-            "program": "${workspaceFolder}/frontend/bin/Debug/net7.0/frontend.dll",
+            "program": "${workspaceFolder}/frontend/bin/Debug/net8.0/frontend.dll",
             "args": [],
             "cwd": "${workspaceFolder}/frontend",
             "stopAtEntry": false,

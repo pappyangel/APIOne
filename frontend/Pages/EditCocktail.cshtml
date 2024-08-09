@@ -4,21 +4,21 @@
     ViewData["Title"] = "Edit Cocktails Page";   
 
     var srcContent ="~/images/";
+    var userImageName = "";
     
     @* + (Model.cocktailToEdit.ImagePath ?? "NoImage.jpg");     *@
 
     if (Model.cocktailToEdit.ImagePath is null)
-        srcContent = srcContent + "NoImage.jpg";
+        srcContent = srcContent + "NoImageSelected.png";
     else
     if (Model.cocktailToEdit.ImagePath == "")
-        srcContent = srcContent + "NoImage.jpg";
+        srcContent = srcContent + "NoImageSelected.png";
     else
+    {
         srcContent = srcContent + Model.cocktailToEdit.ImagePath;
-
-
-
-
-
+        userImageName = Model.cocktailToEdit.ImagePath.Substring(37);
+    }
+    
 }
 
 
@@ -34,11 +34,15 @@
         we need when we submit the form*@
     @* <input hidden asp-for="cocktailToEdit.Id" /> *@
     @* <input readonly asp-for="cocktailToEdit.Id" /> *@
+
+    
+    <input type="hidden" readonly asp-for="cocktailToEdit.ImagePath" class="form-control">
+
     <div class="form-group row">
         <label asp-for="cocktailToEdit.Id" class="col-sm-2 col-form-label">
         </label>
         <div class="col-sm-10">
-            <input readonly asp-for="cocktailToEdit.Id" class="form-control" placeholder="Bobo">
+            <input readonly asp-for="cocktailToEdit.Id" class="form-control" >
         </div>
     </div>
 
@@ -71,7 +75,8 @@
                 @*Photo property type is IFormFile, so ASP.NET Core
                     automatically creates a FileUpload control  *@
                 <input asp-for="ctImage" class="custom-file-input form-control">
-                <label class="custom-file-label">Click here to change image</label>
+                @* <label class="custom-file-label">Click here to change image</label> *@
+                <label class="custom-file-label">@userImageName</label>
             </div>
         </div>
     </div>
