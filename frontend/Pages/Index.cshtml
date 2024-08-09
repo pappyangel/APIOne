@@ -12,8 +12,12 @@
 </div>
 
 <environment include="Development">
-    <div>Environment is Development</div>
+    <div>Environment is Development</div>    
 </environment>
+
 <environment exclude="Development">
-    <div>Environment is NOT Development</div>
+    <div>Environment is NOT Development</div>    
 </environment>
+
+<div> Environment: @Model.envEnvironment </div>
+<div> API Url: @Model.envAPIProductionUrl </div>
