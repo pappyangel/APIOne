@@ -14,7 +14,7 @@ namespace frontend.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly IConfiguration _config;
         public  string envEnvironment  { get; set; }
-        public string envAPIProductionUrl { get; set; }
+        public string envDeploymentDate { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger, IConfiguration config)
         {
@@ -25,7 +25,7 @@ namespace frontend.Pages
         public void OnGet()
         {
             envEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            envAPIProductionUrl = _config["APIProductionUrl"];
+            envDeploymentDate = _config["DeploymentDate"];
 
         }
     }
