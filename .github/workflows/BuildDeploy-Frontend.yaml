@@ -1,5 +1,8 @@
 name: BuildDeploy FrontEnd
 
+env:  
+  APP_FOLDER_PATH: frontend
+
 on:    
   push:
     branches: main
@@ -14,6 +17,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Get DateTime 
+      run:  echo "RUN_DT=$(TZ='America/New_York' date +'%m/%d/%Y %I:%M %p')" >> $GITHUB_ENV
+       
+    - name: Print vars        
+      run: |                 
+       echo ${{env.APP_FOLDER_PATH}}
+       echo "The date time for this run was: ${{env.RUN_DT}}"
+         
+    - name: update build number from GH Action 
+      uses: TomaszKandula/variable-substitution@v1.0.2
+      with:
+          files: '${{env.APP_FOLDER_PATH}}/appsettings.json'
+      env:
+          DeploymentDate: ${{env.RUN_DT}}
+          
     - name: Check out source code
       uses: actions/checkout@v4    
     - name: Setup .NET
@@ -22,7 +40,7 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore, Build, Test, Publish  
       run: |
-        cd frontend
+        cd ${{env.APP_FOLDER_PATH}}
         dotnet restore   
         dotnet build --no-restore
         dotnet test --no-build --verbosity normal
