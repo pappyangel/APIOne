@@ -1,5 +1,8 @@
 name: BuildDeploy FrontEnd
 
+env:  
+  APP_FOLDER_PATH: frontend
+
 on:    
   push:
     branches: main
@@ -15,14 +18,31 @@ jobs:
 
     steps:
     - name: Check out source code
-      uses: actions/checkout@v4    
+      uses: actions/checkout@v4  
+      
+    - name: Get DateTime 
+      run:  echo "RUN_DT=$(TZ='America/New_York' date +'%m/%d/%Y %I:%M %p')" >> $GITHUB_ENV
+       
+    - name: Print vars        
+      run: |                 
+       echo ${{env.APP_FOLDER_PATH}}
+       echo "The date time for this run was: ${{env.RUN_DT}}"
+         
+    - name: update build number from GH Action 
+      uses: TomaszKandula/variable-substitution@v1.0.2
+      with:
+          files: '${{env.APP_FOLDER_PATH}}/appsettings.json'
+      env:
+          DeploymentDate: ${{env.RUN_DT}}
+          
+      
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
     - name: Restore, Build, Test, Publish  
       run: |
-        cd frontend
+        cd ${{env.APP_FOLDER_PATH}}
         dotnet restore   
         dotnet build --no-restore
         dotnet test --no-build --verbosity normal
@@ -32,7 +52,8 @@ jobs:
       uses: Azure/webapps-deploy@v3.0.1
       with:       
         #app-name: 'Cocktail-Frontend'
-        publish-profile: ${{ secrets.COCKTAIL_FRONTEND_MCAPS_F25_PUBLISH_PROFILE }}        
+        publish-profile: ${{ secrets.COCKTAIL_FRONTEND_MCAPS_F25_PUBLISH_PROFILE }} 
+        clean: true
         # Enter an existing Slot other than the Production slot
         #slot-name: prod2
         # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy

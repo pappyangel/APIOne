@@ -5,19 +5,21 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Cocktails Application</h1>
-        <p>Production Release</p>
-        <p>July 2024</p>
+    <h1 class="display-4">Cocktails Application</h1>    
+    <p>
+        <environment include="Development">
+            <div>Development Environment</div>
+        </environment>
+
+        <environment exclude="Development">
+            <div>Production Environment</div>
+        </environment>
+    </p>
+    <p>Deployment Date: @Model.envDeploymentDate</p>
     <p><a href="https://cocktail-api.azurewebsites.net/cocktails">Hit the API directly!</a></p>
 </div>
 
-<environment include="Development">
-    <div>Environment is Development</div>    
-</environment>
 
-<environment exclude="Development">
-    <div>Environment is NOT Development</div>    
-</environment>
 
 @* <div> Environment: @Model.envEnvironment </div>
-<div> API Url: @Model.envAPIProductionUrl </div> *@
+<div> API Url: @Model.envDeploymentDate </div> *@

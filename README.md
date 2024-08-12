@@ -1,3 +1,9 @@
+# dev branch notes for SQL Injection protection 8-2024
+- updated Index page to display for new environment and date information
+- Update & Insert SQL to use parameterized values 
+- updated config to use AppSettingsDevelopment so when in dev, dev config is auto used, when in prod, prod config auto used
+- Added clean: true to workflow
+
 
 # dev branch notes for MCAPS Deployment 7-2024
 Added default NoImage.jpg to ddl in Database items table
