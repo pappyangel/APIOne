@@ -52,7 +52,8 @@ jobs:
       uses: Azure/webapps-deploy@v3.0.1
       with:       
         #app-name: 'Cocktail-Frontend'
-        publish-profile: ${{ secrets.COCKTAIL_FRONTEND_MCAPS_F25_PUBLISH_PROFILE }}        
+        publish-profile: ${{ secrets.COCKTAIL_FRONTEND_MCAPS_F25_PUBLISH_PROFILE }} 
+        clean: true
         # Enter an existing Slot other than the Production slot
         #slot-name: prod2
         # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy
