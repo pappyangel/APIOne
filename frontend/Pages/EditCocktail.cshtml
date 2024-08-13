@@ -8,17 +8,12 @@
     
     @* + (Model.cocktailToEdit.ImagePath ?? "NoImage.jpg");     *@
 
-    if (Model.cocktailToEdit.ImagePath is null)
-        srcContent = srcContent + "NoImageSelected.png";
+    srcContent = srcContent + Model.cocktailToEdit.ImagePath;
+
+    if (Model.cocktailToEdit.ImagePath == "NoImageSelected.png")                
+        userImageName = "Please select an image";
     else
-    if (Model.cocktailToEdit.ImagePath == "")
-        srcContent = srcContent + "NoImageSelected.png";
-    else
-    {
-        srcContent = srcContent + Model.cocktailToEdit.ImagePath;
-        userImageName = Model.cocktailToEdit.ImagePath.Substring(37);
-    }
-    
+        userImageName = Model.cocktailToEdit.ImagePath.Substring(37);    
 }
 
 
@@ -69,23 +64,19 @@
     </div>
 
   <div class="form-group row">
-        <label asp-for="ctImage" class="col-sm-2 col-form-label"></label>
+        <label class="col-sm-2 col-form-label">Image</label>
         <div class="col-sm-10">
-            <div class="custom-file">
-                @*Photo property type is IFormFile, so ASP.NET Core
-                    automatically creates a FileUpload control  *@
-                <input asp-for="ctImage" class="custom-file-input form-control">
+            <div class="custom-file">                
+                <input asp-for="ctImage" class="custom-file-input form-control">                
                 @* <label class="custom-file-label">Click here to change image</label> *@
                 <label class="custom-file-label">@userImageName</label>
             </div>
         </div>
     </div>
-
-    @*Display the existing employee photo*@
+    
     <div class="form-group row col-sm-4 offset-4">        
-        <img class="imageThumbnail" src="@srcContent" asp-append-version="true" />        
+        <img id="imageThumbnail" height=auto width="175" src="@srcContent" asp-append-version="true" />
     </div>
-
     
     <div class="form-group row">
         <div class="col-sm-10">
@@ -102,6 +93,8 @@
                 $('.custom-file-input').on("change", function () {
                     var fileName = $(this).val().split("\\").pop();
                     $(this).next('.custom-file-label').html(fileName);
+                    var image = document.getElementById('imageThumbnail');                    
+                    image.src = URL.createObjectURL(this.files[0]);
                 });
             });
         </script>

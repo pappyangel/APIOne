@@ -26,7 +26,13 @@ namespace frontend.Pages
         {
             envEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             envDeploymentDate = _config["DeploymentDate"];
-
+            if (envEnvironment == "Development")
+            {
+                var localNow = DateTimeOffset.Now;
+                var usEST = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+                envDeploymentDate = TimeZoneInfo.ConvertTime(localNow, usEST).ToString("MM/dd/yyyy hh:mm tt");
+                
+            }
         }
     }
 }
